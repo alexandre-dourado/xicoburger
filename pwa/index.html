@@ -599,6 +599,15 @@ DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas
     document.getElementById('msg-input').value = texto;
   }
 
+
+  // ── helper GET — resolve CORS do GAS ──
+  async function gasGet(params) {
+    const cfg = S.get(CFG_KEY);
+    const url = cfg.gasUrl + '?' + new URLSearchParams(params).toString();
+    const r   = await fetch(url);
+    return r.json();
+  }
+
   async function gerarResposta() {
     const msg = document.getElementById('msg-input').value.trim();
     if (!msg) { toast('⚠️ Escreva a mensagem do cliente'); return; }
@@ -610,12 +619,11 @@ DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas
     document.getElementById('resposta-wrapper').style.display = 'none';
 
     try {
-      const r = await fetch(cfg.gasUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ acao: 'gerar_resposta', mensagem: msg, contexto: document.getElementById('ctx-extra').value })
+      const j = await gasGet({
+        acao: 'gerar_resposta',
+        mensagem: msg,
+        contexto: document.getElementById('ctx-extra').value || ''
       });
-      const j = await r.json();
       document.getElementById('resposta-text').textContent = j?.data?.resposta || '⚠️ Sem resposta.';
       document.getElementById('resposta-wrapper').style.display = 'block';
     } catch {
@@ -639,7 +647,6 @@ DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas
     const cfg = S.get(CFG_KEY);
     if (!cfg?.gasUrl) { toast('⚠️ Configure o sistema'); return; }
     const dados = {
-      acao: 'salvar_contato',
       nome:     document.getElementById('c-nome').value,
       telefone: document.getElementById('c-tel').value,
       assunto:  document.getElementById('c-assunto').value,
@@ -648,8 +655,7 @@ DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas
     };
     if (!dados.nome && !dados.telefone) { toast('⚠️ Informe nome ou telefone'); return; }
     try {
-      const r = await fetch(cfg.gasUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(dados) });
-      const j = await r.json();
+      const j = await gasGet({ acao: 'salvar_contato', ...dados });
       if (j.ok) {
         toast('✅ Contato salvo!');
         ['c-nome','c-tel','c-assunto','c-obs'].forEach(id => document.getElementById(id).value = '');
@@ -663,25 +669,8 @@ DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas
     const box = document.getElementById('lista-wrapper');
     box.innerHTML = '<p style="text-align:center;font-weight:bold;color:var(--royal-blue);padding:20px;">CARREGANDO...</p>';
     try {
-      const r    = await fetch(cfg.gasUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ acao:'listar_contatos' }) });
-      const j    = await r.json();
+      const j    = await gasGet({ acao: 'listar_contatos' });
       const list = j?.data || [];
-      if (!list.length) { box.innerHTML = '<p style="text-align:center;padding:20px;font-weight:bold;">Nenhum contato ainda.</p>'; return; }
-      box.innerHTML = list.slice(0,30).map(c => {
-        const sc = c['Status'] === 'Novo' ? 's-novo' : c['Status'] === 'Em atendimento' ? 's-em' : 's-fin';
-        return `<div class="contato-item">
-          <div>
-            <div class="ci-nome">${c['Nome']||'Sem nome'}</div>
-            <div class="ci-tel">${c['Telefone']||'—'}</div>
-            <div class="ci-ped">${c['Pedido / Assunto']||''}</div>
-          </div>
-          <span class="status-badge ${sc}">${c['Status']}</span>
-        </div>`;
-      }).join('');
-    } catch {
-      box.innerHTML = '<p style="color:red;text-align:center;font-weight:bold;padding:20px;">ERRO AO CARREGAR</p>';
-    }
-  }
 
   function abrirConfig() {
     const cfg = S.get(CFG_KEY) || {};
