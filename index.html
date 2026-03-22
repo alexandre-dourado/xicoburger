@@ -11,723 +11,829 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&family=Yellowtail&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg-light:   #F4F0E6;
-    --royal-blue: #0028D4;
+    --bg:         #F4F0E6;
+    --blue:       #0028D4;
     --gold:       #FFC000;
-    --text-dark:  #001575;
+    --dark:       #001575;
     --white:      #FFFFFF;
     --border:     #0028D4;
+    --green:      #00C853;
+    --red:        #D50000;
+    --muted:      #8890BB;
     --radius:     4px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
+  html, body { height: 100%; overflow: hidden; }
 
   body {
-    background: var(--bg-light);
-    color: var(--text-dark);
+    background: var(--bg);
+    color: var(--dark);
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 500;
-    line-height: 1.6;
-    overflow-x: hidden;
-    position: relative;
-    z-index: 1;
-  }
-
-  body::before {
-    content: "XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS ";
-    position: fixed;
-    top: -20%; left: -20%; right: -20%; bottom: -20%;
-    z-index: -1;
-    font-size: 12vw;
-    font-weight: 900;
-    color: var(--royal-blue);
-    opacity: 0.03;
-    line-height: 0.9;
-    transform: rotate(-10deg);
-    pointer-events: none;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  header {
-    background: var(--royal-blue);
-    border-bottom: 6px solid var(--gold);
-    padding: 14px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky; top: 0; z-index: 100;
-  }
-
-  .logo-block {
     display: flex;
     flex-direction: column;
-    transform: rotate(-2deg);
+    height: 100vh;
   }
-
-  .logo-top {
-    font-family: 'Yellowtail', cursive;
-    color: var(--gold);
-    font-size: 13px;
-    letter-spacing: 1px;
-    line-height: 1;
-    margin-bottom: 1px;
-  }
-
-  .logo-main {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    font-size: 18px;
-    color: var(--white);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  .logo-sub {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 8px;
-    color: var(--gold);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 3px;
-  }
-
-  .status-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #aaa;
-    border: 2px solid rgba(255,255,255,0.3);
-    flex-shrink: 0;
-  }
-
-  .card {
-    background: var(--white);
-    border: 3px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin: 20px;
-    box-shadow: 6px 6px 0 var(--border);
-    position: relative;
-  }
-
-  .card-title {
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--royal-blue);
-    margin-bottom: 20px;
-    border-bottom: 3px solid var(--border);
-    padding-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-
-  .chip {
-    padding: 8px 14px;
-    border-radius: 0px;
-    background: var(--white);
-    color: var(--royal-blue);
-    border: 2px solid var(--border);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    font-size: 11px;
-    box-shadow: 2px 2px 0 var(--border);
-    transition: all .1s ease-in-out;
-  }
-
-  .chip:hover, .chip.active {
-    background: var(--royal-blue);
-    color: var(--gold);
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0 var(--border);
-  }
-
-  .btn { font-family: 'Montserrat', sans-serif; border: none; cursor: pointer; outline: none; transition: all 0.15s; }
-
-  .btn-primary {
-    background: var(--gold);
-    color: var(--royal-blue);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 3px solid var(--border);
-    padding: 14px;
-    font-size: 14px;
-    box-shadow: 4px 4px 0 var(--border);
-    display: block;
-    width: 100%;
-  }
-
-  .btn-primary:hover:not(:disabled) {
-    background: var(--royal-blue);
-    color: var(--gold);
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 var(--border);
-  }
-
-  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--white);
-    border: 2px solid var(--gold);
-    padding: 6px 10px;
-    font-weight: 700;
-  }
-  .btn-ghost:hover { background: var(--gold); color: var(--royal-blue); }
-
-  .field { margin-bottom: 16px; }
-  .field label {
-    display: block;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--royal-blue);
-    margin-bottom: 6px;
-    font-size: 12px;
-  }
-
-  .field input, .field textarea, .form-input, .msg-area {
-    width: 100%;
-    background: var(--bg-light);
-    border: 3px solid var(--border);
-    color: var(--text-dark);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    padding: 12px;
-    font-size: 14px;
-    border-radius: 0;
-    margin-bottom: 12px;
-    transition: box-shadow 0.2s;
-  }
-
-  .msg-area { height: 100px; resize: vertical; }
-
-  .field input:focus, .field textarea:focus, .form-input:focus, .msg-area:focus {
-    outline: none;
-    box-shadow: 4px 4px 0 var(--gold);
-    background: var(--white);
-  }
-
-  .form-grid { display: flex; flex-direction: column; }
-
-  select.form-input {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    cursor: pointer;
-    appearance: auto;
-  }
-
-  .resposta-wrapper {
-    background: var(--royal-blue);
-    border: 3px solid var(--border);
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 6px 6px 0 var(--gold);
-    display: none;
-    position: relative;
-    transform: rotate(1deg);
-  }
-
-  .resposta-label {
-    font-weight: 900;
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-    font-size: 12px;
-  }
-
-  .resposta-text { color: var(--white); font-size: 15px; line-height: 1.6; margin-bottom: 40px; }
-
-  .copy-fab {
-    position: absolute;
-    bottom: 16px; right: 16px;
-    background: var(--gold);
-    color: var(--royal-blue);
-    border: 2px solid var(--border);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 8px 16px;
-    cursor: pointer;
-    box-shadow: 2px 2px 0 var(--border);
-  }
-  .copy-fab:hover { background: var(--white); transform: translate(2px,2px); box-shadow: 0 0 0 var(--border); }
-
-  .contato-item {
-    border-bottom: 2px solid var(--border);
-    padding: 12px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .contato-item:last-child { border-bottom: none; }
-  .ci-nome { font-weight: 900; color: var(--royal-blue); text-transform: uppercase; }
-  .ci-tel  { font-size: 12px; color: var(--text-dark); margin-bottom: 4px; }
-  .ci-ped  { font-size: 13px; font-weight: 600; }
-
-  .status-badge {
-    font-size: 10px; font-weight: 900; text-transform: uppercase;
-    padding: 4px 8px; border: 2px solid var(--border);
-    white-space: nowrap; flex-shrink: 0;
-  }
-  .s-novo { background: var(--white);      color: var(--royal-blue); }
-  .s-em   { background: var(--gold);       color: var(--royal-blue); }
-  .s-fin  { background: var(--royal-blue); color: var(--gold); }
-
-  nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--royal-blue);
-    border-top: 4px solid rgba(0,0,0,0.3);
-    display: flex; z-index: 100;
-  }
-
-  .nav-item {
-    flex: 1; background: transparent; color: var(--white);
-    border: none; border-right: 1px solid rgba(255,255,255,0.1);
-    padding: 12px 0;
-    font-family: 'Montserrat', sans-serif; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 1px; font-size: 11px;
-    cursor: pointer; transition: background 0.2s;
-    display: flex; flex-direction: column; align-items: center;
-  }
-  .nav-item:last-child { border-right: none; }
-  .nav-item .icon { font-size: 18px; margin-bottom: 4px; }
-  .nav-item.active { background: rgba(0,0,0,0.25); color: var(--gold); }
-
-  .app-layout { padding-bottom: 80px; }
-
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,40,212,0.9);
-    z-index: 200; display: flex; align-items: center; justify-content: center;
-    padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s;
-  }
-  .modal-overlay.open { opacity: 1; pointer-events: all; }
-
-  .modal {
-    background: var(--bg-light); border: 4px solid var(--border);
-    padding: 24px; width: 100%; max-width: 480px;
-    max-height: 90vh; overflow-y: auto;
-    box-shadow: 8px 8px 0 var(--border); transform: rotate(2deg);
-  }
-
-  .modal-title {
-    font-size: 20px; font-weight: 900; margin-bottom: 20px;
-    color: var(--royal-blue); letter-spacing: 2px; text-transform: uppercase;
-    border-bottom: 4px solid var(--gold); padding-bottom: 10px;
-  }
-
-  .modal-close { float: right; cursor: pointer; color: var(--text-dark); font-size: 24px; line-height: 1; font-weight: bold; }
-  .modal-close:hover { color: var(--gold); }
-
-  .toast {
-    position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
-    background: var(--white); border: 3px solid var(--border);
-    color: var(--royal-blue); font-weight: 900; text-transform: uppercase;
-    padding: 12px 24px; box-shadow: 4px 4px 0 var(--gold);
-    opacity: 0; pointer-events: none; transition: all .3s;
-    z-index: 999; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  .loader { display: none; text-align: center; margin: 20px 0; font-weight: 900; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 2px; }
-  .loader.show { display: block; }
 
   /* ── SPLASH ── */
   #splash {
     position: fixed; inset: 0; z-index: 9999;
-    background: var(--bg-light);
+    background: var(--bg);
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 20px;
-    transition: opacity 0.6s ease;
+    align-items: center; justify-content: center; gap: 16px;
+    transition: opacity 0.5s ease;
   }
   #splash img {
-    width: 240px; height: 240px;
-    object-fit: contain;
-    border-radius: 24px;
-    box-shadow: 8px 8px 0 var(--royal-blue);
-    animation: splashPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    width: 200px; height: 200px; object-fit: contain;
+    border-radius: 20px;
+    box-shadow: 8px 8px 0 var(--blue);
+    animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
   }
-  #splash .splash-label {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 900;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--royal-blue);
-    opacity: 0;
-    animation: fadeUp 0.4s ease 0.4s forwards;
-  }
-  @keyframes splashPop {
-    from { transform: scale(0.7); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-  }
-  @keyframes fadeUp {
-    from { transform: translateY(6px); opacity: 0; }
-    to   { transform: translateY(0);   opacity: 1; }
-  }
+  #splash .sl { font-weight: 900; font-size: 10px; letter-spacing: 4px; color: var(--blue); opacity: 0; animation: fu 0.4s ease 0.5s forwards; }
+  @keyframes pop { from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1} }
+  @keyframes fu  { from{transform:translateY(6px);opacity:0} to{transform:translateY(0);opacity:1} }
   #splash.hide { opacity: 0; pointer-events: none; }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--blue);
+    border-bottom: 5px solid var(--gold);
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 10px; transform: rotate(-1.5deg); }
+  .logo-wrap img { width: 38px; height: 38px; object-fit: contain; border-radius: 6px; border: 2px solid var(--gold); }
+  .logo-text { display: flex; flex-direction: column; }
+  .logo-top  { font-family: 'Yellowtail', cursive; color: var(--gold); font-size: 12px; line-height: 1; }
+  .logo-main { font-weight: 900; font-size: 16px; color: var(--white); letter-spacing: 2px; line-height: 1; }
+  .logo-sub  { font-weight: 700; font-size: 7px; color: var(--gold); letter-spacing: 3px; margin-top: 2px; }
+  .hdr-right { display: flex; align-items: center; gap: 10px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #aaa; border: 2px solid rgba(255,255,255,0.2); }
+  .icon-btn { background: transparent; border: 2px solid var(--gold); color: var(--white); font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 11px; padding: 5px 8px; cursor: pointer; letter-spacing: 1px; }
+  .icon-btn:hover { background: var(--gold); color: var(--blue); }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    background: var(--blue);
+    border-bottom: 3px solid var(--gold);
+    flex-shrink: 0;
+  }
+  .tab-btn {
+    flex: 1; padding: 8px 0;
+    background: transparent; border: none;
+    font-family: 'Montserrat',sans-serif; font-weight: 700;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); cursor: pointer;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    transition: all .15s;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn .ti { font-size: 16px; }
+  .tab-btn.active { color: var(--gold); background: rgba(0,0,0,0.2); }
+
+  /* ── MAIN SCROLL AREA ── */
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .panel { display: none; padding: 14px; padding-bottom: 20px; }
+  .panel.active { display: block; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border: 3px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 5px 5px 0 var(--border);
+    position: relative;
+  }
+  .card-label {
+    font-size: 10px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--muted);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .card-label::after { content:''; flex:1; height:1px; background: var(--border); opacity: 0.2; }
+
+  /* ── MAIN TEXTAREA ── */
+  .msg-box {
+    width: 100%;
+    background: var(--bg);
+    border: 3px solid var(--border);
+    color: var(--dark);
+    font-family: 'Montserrat',sans-serif;
+    font-weight: 600; font-size: 14px;
+    padding: 12px; border-radius: 0;
+    resize: none;
+    line-height: 1.5;
+    transition: box-shadow .2s;
+    display: block;
+  }
+  .msg-box:focus { outline: none; box-shadow: 4px 4px 0 var(--gold); background: var(--white); }
+  #msg-input  { height: 110px; }
+  #msg-output {
+    height: 130px;
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+    font-size: 14px;
+    cursor: text;
+  }
+  #msg-output:focus { box-shadow: 4px 4px 0 var(--gold); }
+
+  /* ── TONE PILLS ── */
+  .tone-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .tone-pill {
+    padding: 5px 12px; border: 2px solid var(--border);
+    background: var(--white); color: var(--dark);
+    font-family: 'Montserrat',sans-serif; font-weight: 700;
+    font-size: 11px; cursor: pointer;
+    box-shadow: 2px 2px 0 var(--border);
+    transition: all .1s;
+  }
+  .tone-pill:hover, .tone-pill.active {
+    background: var(--blue); color: var(--gold);
+    transform: translate(2px,2px); box-shadow: none;
+  }
+
+  /* ── SITUATION PILLS ── */
+  .sit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .sit-pill {
+    padding: 8px 10px; border: 2px solid var(--border);
+    background: var(--white); color: var(--dark);
+    font-family: 'Montserrat',sans-serif; font-weight: 700;
+    font-size: 11px; cursor: pointer; text-align: left;
+    box-shadow: 2px 2px 0 var(--border);
+    transition: all .1s; line-height: 1.3;
+  }
+  .sit-pill:hover { background: var(--blue); color: var(--gold); transform: translate(2px,2px); box-shadow: none; }
+  .sit-pill .si { font-size: 14px; display: block; margin-bottom: 2px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    font-family: 'Montserrat',sans-serif; border: none;
+    cursor: pointer; outline: none; transition: all .15s;
+  }
+  .btn-generate {
+    width: 100%; background: var(--gold); color: var(--blue);
+    font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+    border: 3px solid var(--border); padding: 14px; font-size: 14px;
+    box-shadow: 4px 4px 0 var(--border); margin: 10px 0;
+  }
+  .btn-generate:hover:not(:disabled) {
+    background: var(--blue); color: var(--gold);
+    transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--border);
+  }
+  .btn-generate:disabled { opacity: .5; cursor: not-allowed; }
+
+  .btn-copy {
+    width: 100%; background: var(--green); color: var(--white);
+    font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+    border: 3px solid #009624; padding: 12px; font-size: 13px;
+    box-shadow: 4px 4px 0 #009624;
+  }
+  .btn-copy:hover { background: #009624; transform: translate(2px,2px); box-shadow: 2px 2px 0 #009624; }
+  .btn-copy:active { transform: translate(4px,4px); box-shadow: none; }
+
+  .btn-sm {
+    padding: 7px 14px; font-size: 11px; font-weight: 700;
+    background: var(--white); border: 2px solid var(--border);
+    color: var(--dark); box-shadow: 2px 2px 0 var(--border);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .btn-sm:hover { background: var(--blue); color: var(--gold); transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--border); }
+
+  /* ── LOADER ── */
+  .loader { display:none; text-align:center; padding: 14px 0; font-weight:900; color:var(--blue); text-transform:uppercase; letter-spacing:2px; font-size:12px; }
+  .loader.show { display:block; }
+  .loader::after { content:''; display:inline-block; width:14px; height:14px; border:3px solid var(--bg); border-top-color:var(--blue); border-radius:50%; animation:spin .7s linear infinite; margin-left:8px; vertical-align:middle; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  /* ── FORM INPUTS ── */
+  .f-label { display:block; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:var(--blue); margin-bottom:5px; font-size:11px; }
+  .f-input, .f-textarea, .f-select {
+    width:100%; background:var(--bg); border:3px solid var(--border);
+    color:var(--dark); font-family:'Montserrat',sans-serif; font-weight:600;
+    padding:10px; font-size:13px; border-radius:0; margin-bottom:12px;
+    transition: box-shadow .2s;
+  }
+  .f-textarea { resize:vertical; min-height:70px; }
+  .f-input:focus, .f-textarea:focus, .f-select:focus { outline:none; box-shadow:4px 4px 0 var(--gold); background:var(--white); }
+  .f-select { cursor:pointer; font-family:'Montserrat',sans-serif; font-weight:700; }
+
+  /* ── CONTATO LIST ── */
+  .ci {
+    border-bottom: 2px solid var(--border);
+    padding: 10px 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .ci:last-child { border-bottom: none; }
+  .ci-nome { font-weight:900; color:var(--blue); text-transform:uppercase; font-size:13px; }
+  .ci-det  { font-size:11px; color:var(--muted); margin-top:2px; }
+  .ci-ped  { font-size:12px; font-weight:600; margin-top:3px; }
+  .badge { font-size:10px; font-weight:900; text-transform:uppercase; padding:3px 8px; border:2px solid var(--border); white-space:nowrap; flex-shrink:0; }
+  .b-novo { background:var(--white); color:var(--blue); }
+  .b-em   { background:var(--gold);  color:var(--blue); }
+  .b-fin  { background:var(--blue);  color:var(--gold); }
+
+  /* ── INFO TILES (dados rápidos) ── */
+  .info-tile {
+    background: var(--bg); border: 2px solid var(--border);
+    padding: 10px 12px; margin-bottom: 8px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 10px;
+  }
+  .info-tile .it-label { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:3px; }
+  .info-tile .it-val   { font-size:13px; font-weight:700; color:var(--dark); line-height:1.4; }
+  .info-tile .it-copy  { background:var(--blue); color:var(--gold); border:none; font-family:'Montserrat',sans-serif; font-weight:900; font-size:10px; padding:5px 8px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
+  .info-tile .it-copy:hover { background:var(--dark); }
+
+  /* ── RANGE SLIDER ── */
+  .slider-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .slider-row label { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:var(--blue); width:100px; flex-shrink:0; }
+  .slider-row input[type=range] { flex:1; accent-color:var(--blue); }
+  .slider-row .sv { font-size:11px; font-weight:900; color:var(--blue); width:60px; text-align:right; }
+
+  /* ── TOGGLE ── */
+  .toggle-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .toggle-row span { font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:var(--blue); }
+  .toggle { position:relative; width:40px; height:22px; }
+  .toggle input { opacity:0; width:0; height:0; }
+  .toggle-slider { position:absolute; inset:0; background:#ccc; border:2px solid var(--border); cursor:pointer; transition:.2s; }
+  .toggle-slider::before { content:''; position:absolute; width:14px; height:14px; left:2px; top:2px; background:var(--white); transition:.2s; }
+  .toggle input:checked + .toggle-slider { background:var(--blue); }
+  .toggle input:checked + .toggle-slider::before { transform:translateX(18px); }
+
+  /* ── MODAL ── */
+  .overlay { position:fixed; inset:0; background:rgba(0,40,212,0.85); z-index:500; display:flex; align-items:center; justify-content:center; padding:16px; opacity:0; pointer-events:none; transition:opacity .2s; }
+  .overlay.open { opacity:1; pointer-events:all; }
+  .modal { background:var(--bg); border:4px solid var(--border); padding:20px; width:100%; max-width:460px; max-height:88vh; overflow-y:auto; box-shadow:8px 8px 0 var(--border); transform:rotate(1.5deg); }
+  .modal-title { font-size:18px; font-weight:900; text-transform:uppercase; letter-spacing:2px; color:var(--blue); border-bottom:4px solid var(--gold); padding-bottom:10px; margin-bottom:18px; }
+  .modal-close { float:right; cursor:pointer; color:var(--muted); font-size:22px; line-height:1; font-weight:bold; }
+  .modal-close:hover { color:var(--red); }
+
+  /* ── TOAST ── */
+  .toast { position:fixed; top:74px; left:50%; transform:translateX(-50%) translateY(-16px); background:var(--white); border:3px solid var(--border); color:var(--blue); font-weight:900; text-transform:uppercase; padding:10px 20px; box-shadow:4px 4px 0 var(--gold); opacity:0; pointer-events:none; transition:all .3s; z-index:999; white-space:nowrap; font-size:12px; }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+  .toast.ok  { border-color:var(--green); color:var(--green); box-shadow:4px 4px 0 var(--green); }
+  .toast.err { border-color:var(--red);   color:var(--red);   box-shadow:4px 4px 0 var(--red);   }
+
+  /* ── DIVIDER ── */
+  .divider { border:none; border-top:2px solid var(--border); opacity:.15; margin:12px 0; }
+
+  /* SCROLLBAR */
+  main::-webkit-scrollbar { width:4px; }
+  main::-webkit-scrollbar-thumb { background:var(--border); opacity:.3; }
 </style>
 </head>
 <body>
 
-<!-- ── SPLASH ── -->
+<!-- SPLASH -->
 <div id="splash">
   <img src="https://i.ibb.co/6RGQM108/image.png" alt="Xicos Burger" />
-  <div class="splash-label">Atendimento Inteligente</div>
+  <div class="sl">Atendimento Inteligente</div>
 </div>
 
+<!-- HEADER -->
 <header>
-  <div class="logo-block" style="flex-direction:row;align-items:center;gap:10px;">
-    <img src="https://i.ibb.co/6RGQM108/image.png" style="width:44px;height:44px;object-fit:contain;border-radius:8px;border:2px solid var(--gold);flex-shrink:0;" />
-    <div style="transform:rotate(-2deg);">
+  <div class="logo-wrap">
+    <img src="https://i.ibb.co/6RGQM108/image.png" alt="logo" />
+    <div class="logo-text">
       <span class="logo-top">the</span>
-      <span class="logo-main" style="display:block;">Xicos Burger</span>
+      <span class="logo-main">Xicos Burger</span>
       <span class="logo-sub">Atendimento Inteligente</span>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <div class="status-dot" id="status-dot" title="Verificando..."></div>
-    <button class="btn btn-ghost" onclick="abrirConfig()">SET</button>
+  <div class="hdr-right">
+    <div class="dot" id="status-dot" title="Verificando..."></div>
+    <button class="icon-btn" onclick="openModal('cfg-modal')">⚙</button>
   </div>
 </header>
 
-<!-- Setup só aparece se não houver config salva -->
-<div id="setup-screen" style="display:none;">
-  <div class="card" style="margin-top:40px;transform:rotate(-1deg);">
-    <div class="card-title">INICIAR SISTEMA</div>
-    <p style="margin-bottom:20px;font-weight:600;">Configure os dados do negócio. Salve apenas uma vez.</p>
-    <div class="field"><label>URL do Web App (GAS)</label><input id="s-gasurl" type="url" placeholder="https://script.google.com/..."/></div>
-    <div class="field"><label>Nome do Negócio</label><input id="s-nome" placeholder="Ex: XICOS BURGER"/></div>
-    <div class="field"><label>Horário de Funcionamento</label><input id="s-horario" placeholder="Ex: 18h às 23h"/></div>
-    <div class="field"><label>Telefone/WhatsApp</label><input id="s-tel" type="tel" placeholder="(38) 9xxxx-xxxx"/></div>
-    <div class="field"><label>Cardápio resumido</label><textarea id="s-cardapio" placeholder="BLT R$33, Zoião R$37..."></textarea></div>
-    <button class="btn btn-primary" onclick="salvarSetup()">SALVAR E ENTRAR</button>
-  </div>
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="tab-btn active" id="tab-copilot" onclick="showPanel('copilot')">
+    <span class="ti">💬</span>Copilot
+  </button>
+  <button class="tab-btn" id="tab-ajuste"  onclick="showPanel('ajuste')">
+    <span class="ti">🎚</span>Ajuste
+  </button>
+  <button class="tab-btn" id="tab-dados"   onclick="showPanel('dados')">
+    <span class="ti">📋</span>Dados
+  </button>
+  <button class="tab-btn" id="tab-contatos" onclick="showPanel('contatos')">
+    <span class="ti">👥</span>Contatos
+  </button>
 </div>
 
-<div id="app-screen" style="display:none;">
-  <div class="app-layout">
+<!-- MAIN -->
+<main>
 
-    <div id="panel-resposta">
-      <div class="card">
-        <div class="card-title">GERAR RESPOSTA I.A.</div>
-        <div class="chips">
-          <span class="chip" onclick="useChip(this,'Qual o cardápio?')">Cardápio</span>
-          <span class="chip" onclick="useChip(this,'Faz entrega?')">Entrega</span>
-          <span class="chip" onclick="useChip(this,'Qual o horário?')">Horário</span>
-          <span class="chip" onclick="useChip(this,'Quero fazer um pedido')">Pedido</span>
-          <span class="chip" onclick="useChip(this,'Vocês aceitam cartão?')">Pagamento</span>
-          <span class="chip" onclick="useChip(this,'Qual o endereço?')">Endereço</span>
-          <span class="chip" onclick="useChip(this,'Quanto custa o BLT?')">BLT</span>
-          <span class="chip" onclick="useChip(this,'Quanto custa o Zoião?')">Zoião</span>
-        </div>
-        <textarea class="msg-area" id="msg-input" placeholder="COLE A MENSAGEM DO CLIENTE AQUI..."></textarea>
-        <input class="form-input" id="ctx-extra" placeholder="Contexto extra (Ex: cliente VIP, pedido urgente)" />
-        <button class="btn btn-primary" id="btn-gerar" onclick="gerarResposta()">GERAR RESPOSTA</button>
-        <div class="loader" id="loader-ia">PROCESSANDO...</div>
-        <div class="resposta-wrapper" id="resposta-wrapper">
-          <div class="resposta-label">RESPOSTA SUGERIDA</div>
-          <div class="resposta-text" id="resposta-text"></div>
-          <button class="copy-fab" onclick="copiarResposta()">COPIAR</button>
-        </div>
+  <!-- ═══ PANEL: COPILOT ═══ -->
+  <div class="panel active" id="panel-copilot">
+
+    <!-- Situações rápidas -->
+    <div class="card" style="margin-top:14px;">
+      <div class="card-label">⚡ Situação do cliente</div>
+      <div class="sit-grid">
+        <button class="sit-pill" onclick="useSit(this,'A carne do hambúrguer veio crua / mal passada.')"><span class="si">🥩</span>Carne crua</button>
+        <button class="sit-pill" onclick="useSit(this,'O pedido está demorando muito para chegar.')"><span class="si">⏱</span>Tá demorando</button>
+        <button class="sit-pill" onclick="useSit(this,'Veio faltando um item no pedido.')"><span class="si">📦</span>Faltou item</button>
+        <button class="sit-pill" onclick="useSit(this,'O ponto da carne não estava certo.')"><span class="si">🌡</span>Ponto errado</button>
+        <button class="sit-pill" onclick="useSit(this,'Quero saber se tem algum desconto ou promoção.')"><span class="si">💸</span>Desconto?</button>
+        <button class="sit-pill" onclick="useSit(this,'O pedido foi cancelado e quero entender o que aconteceu.')"><span class="si">❌</span>Cancelamento</button>
+        <button class="sit-pill" onclick="useSit(this,'Quero elogiar o atendimento e a comida, estou muito satisfeito.')"><span class="si">⭐</span>Elogio</button>
+        <button class="sit-pill" onclick="useSit(this,'Tenho alergia alimentar e preciso saber os ingredientes.')"><span class="si">⚠️</span>Alergia</button>
       </div>
     </div>
 
-    <div id="panel-contato" style="display:none;">
-      <div class="card">
-        <div class="card-title">REGISTRAR CONTATO</div>
-        <div class="form-grid">
-          <div class="field"><label>NOME</label><input class="form-input" id="c-nome" /></div>
-          <div class="field"><label>WHATSAPP</label><input class="form-input" id="c-tel" /></div>
-          <div class="field"><label>PEDIDO / ASSUNTO</label><input class="form-input" id="c-assunto" /></div>
-          <div class="field"><label>STATUS</label>
-            <select class="form-input" id="c-status">
-              <option value="Novo">NOVO</option>
-              <option value="Em atendimento">ATENDENDO</option>
-              <option value="Finalizado">FINALIZADO</option>
-            </select>
-          </div>
-          <div class="field"><label>OBSERVAÇÕES</label><input class="form-input" id="c-obs" /></div>
-        </div>
-        <button class="btn btn-primary" onclick="salvarContato()">SALVAR CONTATO</button>
-      </div>
+    <!-- Input mensagem -->
+    <div class="card">
+      <div class="card-label">📩 Mensagem do cliente</div>
+      <textarea class="msg-box" id="msg-input" placeholder="Cole aqui a mensagem do cliente ou descreva a situação...&#10;&#10;Ex: 'cara meu burger tá cru aqui no meio'"></textarea>
+      <button class="btn btn-generate" id="btn-gerar" onclick="gerarResposta()">✨ GERAR RESPOSTA</button>
+      <div class="loader" id="loader"></div>
     </div>
 
-    <div id="panel-lista" style="display:none;">
-      <div class="card">
-        <div class="card-title" style="justify-content:space-between;margin-bottom:0;border-bottom:none;">
-          <span>CONTATOS RECENTES</span>
-          <button class="btn btn-ghost" onclick="carregarContatos()" style="color:var(--royal-blue);border-color:var(--royal-blue);">ATUALIZAR</button>
-        </div>
-        <div id="lista-wrapper" style="margin-top:16px;border-top:3px solid var(--border);padding-top:16px;">
-          <p style="color:var(--text-dark);font-size:13px;text-align:center;padding:20px 0;font-weight:bold;">Clique em Atualizar para carregar.</p>
-        </div>
+    <!-- Output resposta -->
+    <div class="card" id="output-card" style="display:none;">
+      <div class="card-label">✅ Resposta sugerida — revise e copie</div>
+      <textarea class="msg-box" id="msg-output" readonly></textarea>
+      <button class="btn btn-copy" onclick="copiar()">📋 COPIAR E COLAR NO WHATSAPP</button>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <button class="btn btn-sm" onclick="regenerar()">🔄 Gerar outra</button>
+        <button class="btn btn-sm" onclick="salvarContatoRapido()">💾 Salvar contato</button>
       </div>
     </div>
 
   </div>
 
-  <nav>
-    <button class="nav-item active" id="nav-resposta" onclick="showPanel('resposta')">
-      <div class="icon">💬</div>Resposta
-    </button>
-    <button class="nav-item" id="nav-contato" onclick="showPanel('contato')">
-      <div class="icon">➕</div>Contato
-    </button>
-    <button class="nav-item" id="nav-lista" onclick="showPanel('lista')">
-      <div class="icon">📋</div>Lista
-    </button>
-  </nav>
-</div>
+  <!-- ═══ PANEL: AJUSTE FINO ═══ -->
+  <div class="panel" id="panel-ajuste">
 
-<div class="modal-overlay" id="config-modal">
+    <div class="card" style="margin-top:14px;">
+      <div class="card-label">🎭 Tom da resposta</div>
+      <div class="tone-row">
+        <button class="tone-pill active" data-tone="humanizado e acolhedor" onclick="setTone(this)">🤗 Acolhedor</button>
+        <button class="tone-pill" data-tone="profissional e direto" onclick="setTone(this)">👔 Profissional</button>
+        <button class="tone-pill" data-tone="descontraído e amigável como um amigo" onclick="setTone(this)">😎 Descontraído</button>
+        <button class="tone-pill" data-tone="formal e respeitoso" onclick="setTone(this)">🎩 Formal</button>
+        <button class="tone-pill" data-tone="empático e resolutivo, focado em resolver o problema" onclick="setTone(this)">💙 Empático</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">📏 Tamanho da resposta</div>
+      <div class="slider-row">
+        <label>Comprimento</label>
+        <input type="range" id="sl-tamanho" min="1" max="3" value="2" step="1" oninput="updSlider(this,'sv-tamanho',['Curta','Média','Longa'])" />
+        <span class="sv" id="sv-tamanho">Média</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">🎯 Foco da resposta</div>
+      <div class="tone-row">
+        <button class="tone-pill active" data-foco="resolver o problema e fidelizar o cliente" onclick="setFoco(this)">🔧 Resolver</button>
+        <button class="tone-pill" data-foco="oferecer compensação ou desconto se necessário" onclick="setFoco(this)">🎁 Compensar</button>
+        <button class="tone-pill" data-foco="informar claramente e direcionar para o próximo passo" onclick="setFoco(this)">📍 Informar</button>
+        <button class="tone-pill" data-foco="valorizar o relacionamento e fortalecer a fidelidade do cliente" onclick="setFoco(this)">❤️ Fidelizar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">⚙️ Configurações avançadas</div>
+      <div class="toggle-row">
+        <span>Sempre terminar com pergunta/CTA</span>
+        <label class="toggle"><input type="checkbox" id="tg-cta" checked /><div class="toggle-slider"></div></label>
+      </div>
+      <div class="toggle-row">
+        <span>Incluir nome do negócio na resposta</span>
+        <label class="toggle"><input type="checkbox" id="tg-nome" checked /><div class="toggle-slider"></div></label>
+      </div>
+      <div class="toggle-row">
+        <span>Emojis na resposta</span>
+        <label class="toggle"><input type="checkbox" id="tg-emoji" checked /><div class="toggle-slider"></div></label>
+      </div>
+      <hr class="divider" />
+      <label class="f-label">Instrução extra (opcional)</label>
+      <textarea class="f-textarea" id="instrucao-extra" placeholder="Ex: o cliente é VIP, já pediu 5x esse mês. Ofereça um mimo."></textarea>
+    </div>
+
+  </div>
+
+  <!-- ═══ PANEL: DADOS RÁPIDOS ═══ -->
+  <div class="panel" id="panel-dados">
+
+    <div class="card" style="margin-top:14px;">
+      <div class="card-label">📌 Informações do negócio</div>
+      <div id="tiles-info"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">🍔 Cardápio rápido</div>
+      <div id="tiles-cardapio"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══ PANEL: CONTATOS ═══ -->
+  <div class="panel" id="panel-contatos">
+    <div class="card" style="margin-top:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="card-label" style="margin-bottom:0;">👥 Contatos recentes</div>
+        <button class="btn btn-sm" onclick="carregarContatos()">🔄 Atualizar</button>
+      </div>
+      <div id="lista-contatos">
+        <p style="color:var(--muted);text-align:center;padding:20px;font-weight:bold;font-size:12px;">Clique em Atualizar para carregar.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ MODAL: CONFIG ═══ -->
+<div class="overlay" id="cfg-modal">
   <div class="modal">
-    <div class="modal-close" onclick="fecharConfig()">×</div>
-    <div class="modal-title">CONFIGURAÇÕES</div>
-    <div class="field"><label>URL do Web App</label><input id="cfg-gasurl" type="url" /></div>
-    <div class="field"><label>Nome do Negócio</label><input id="cfg-nome" /></div>
-    <div class="field"><label>Horário</label><input id="cfg-horario" /></div>
-    <div class="field"><label>Telefone</label><input id="cfg-tel" type="tel" /></div>
-    <div class="field"><label>Cardápio</label><textarea id="cfg-cardapio" style="height:80px;"></textarea></div>
-    <button class="btn btn-primary" onclick="salvarConfig()">SALVAR</button>
-    <button class="btn btn-ghost" style="margin-top:12px;width:100%;border-color:red;color:red;" onclick="limparDados()">REDEFINIR SISTEMA</button>
+    <div class="modal-close" onclick="closeModal('cfg-modal')">×</div>
+    <div class="modal-title">Configurações</div>
+    <label class="f-label">URL do Web App (GAS)</label>
+    <input class="f-input" id="cfg-gasurl" type="url" />
+    <label class="f-label">Nome do Negócio</label>
+    <input class="f-input" id="cfg-nome" />
+    <label class="f-label">Horário</label>
+    <input class="f-input" id="cfg-horario" />
+    <label class="f-label">Telefone / WhatsApp</label>
+    <input class="f-input" id="cfg-tel" type="tel" />
+    <label class="f-label">Cardápio (itens e preços)</label>
+    <textarea class="f-textarea" id="cfg-cardapio" style="min-height:100px;"></textarea>
+    <label class="f-label">Endereço</label>
+    <input class="f-input" id="cfg-endereco" />
+    <label class="f-label">Formas de pagamento</label>
+    <input class="f-input" id="cfg-pagamento" placeholder="Ex: Pix, cartão, dinheiro" />
+    <button class="btn btn-generate" onclick="salvarConfig()">SALVAR</button>
+    <button class="btn btn-sm" style="width:100%;margin-top:8px;border-color:var(--red);color:var(--red);" onclick="limparDados()">REDEFINIR SISTEMA</button>
+  </div>
+</div>
+
+<!-- ═══ MODAL: SALVAR CONTATO ═══ -->
+<div class="overlay" id="contato-modal">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal('contato-modal')">×</div>
+    <div class="modal-title">Salvar Contato</div>
+    <label class="f-label">Nome</label>
+    <input class="f-input" id="cm-nome" />
+    <label class="f-label">WhatsApp</label>
+    <input class="f-input" id="cm-tel" type="tel" />
+    <label class="f-label">Pedido / Assunto</label>
+    <input class="f-input" id="cm-assunto" />
+    <label class="f-label">Status</label>
+    <select class="f-select" id="cm-status">
+      <option value="Novo">Novo</option>
+      <option value="Em atendimento">Em atendimento</option>
+      <option value="Finalizado">Finalizado</option>
+    </select>
+    <label class="f-label">Observações</label>
+    <input class="f-input" id="cm-obs" />
+    <button class="btn btn-generate" onclick="confirmarSalvarContato()">SALVAR</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-  const S = {
-    get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch{ return null; } },
-    set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
-    del: k => localStorage.removeItem(k),
-  };
-  const CFG_KEY = 'copilot_cfg';
+// ── STORAGE ──
+const S = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
+  del: k => localStorage.removeItem(k),
+};
+const CFG_KEY  = 'xicos_cfg';
+const TONE_KEY = 'xicos_tone';
 
-  const DEFAULT_CFG = {
-    gasUrl:   'https://script.google.com/macros/s/AKfycbwsXjYOHZBYMc7BX_8meiO_1TiSo0mxW35NdgqrG1VxJ477I41JSDEHApX49CIIaBc/exec',
-    nome:     'XICOS BURGER',
-    horario:  '18h às 23h',
-    telefone: '(38) 9179-3963',
-    cardapio: `Pedido mínimo R$15. Entrega 30–50min. Acumule R$300 e ganhe R$30 de desconto.
+// ── DEFAULT CONFIG ──
+const DEFAULT = {
+  gasUrl:    'https://script.google.com/macros/s/AKfycbwsXjYOHZBYMc7BX_8meiO_1TiSo0mxW35NdgqrG1VxJ477I41JSDEHApX49CIIaBc/exec',
+  nome:      'Xicos Burger',
+  horario:   '18h às 23h',
+  telefone:  '(38) 9179-3963',
+  endereco:  '',
+  pagamento: 'Pix, cartão de crédito/débito, dinheiro',
+  cardapio:  `ENTRADAS: Anéis de Cebola R$22 | Fritas R$19 | Fritas Blue (cheddar+bacon) R$26
+CLÁSSICOS: Fininho R$27 | Hambúrguer R$27 | Cheeseburger R$29 | Cheesebacon R$31 | Smashinho R$33 | BLT R$33
+ESPECIAIS: Zoião R$37 | Melt R$33 | Sweet Bacon R$33 | The Blue Burger R$34 | Vaquejada R$34 | Veggie R$30 | Duplo R$52 | No Pain R$27
+BEBIDAS: Refri lata R$7 | Coca 220ml R$5 | Coca 600ml R$9 | Água R$4 | Suco R$5 | Baer Mate R$13 | Budweiser R$9
+Pedido mínimo R$15. Entrega 30–50min. Acumule R$300 → ganhe R$30 de desconto.`
+};
 
-ENTRADAS: Anéis de Cebola R$22 | Fritas R$19 | Fritas Blue (cheddar+bacon) R$26
+// ── TONE STATE ──
+let toneState = {
+  tom:    'humanizado e acolhedor',
+  foco:   'resolver o problema e fidelizar o cliente',
+  tamanho: 'Média',
+  cta:    true,
+  nomeNaResposta: true,
+  emoji:  true,
+  extra:  ''
+};
 
-CLÁSSICOS: Fininho R$27 | Hambúrguer R$27 | Cheeseburger R$29 | Cheesebacon R$31 | Smashinho R$33 (2x75g smash, cheddar, picles, cebola roxa) | BLT R$33 (bacon, alface, tomate)
+// ── INIT ──
+window.onload = () => {
+  // Splash
+  setTimeout(() => {
+    const s = document.getElementById('splash');
+    s.classList.add('hide');
+    setTimeout(() => s.remove(), 600);
+  }, 2000);
 
-ESPECIAIS: Zoião R$37 (cheddar, bacon, ovo, cebola roxa, salada) | Melt R$33 | Sweet Bacon R$33 | The Blue Burger R$34 (gorgonzola+rúcula) | Vaquejada R$34 | Veggie R$30 | Duplo R$52 | No Pain R$27 (low carb)
+  if (!S.get(CFG_KEY)) S.set(CFG_KEY, DEFAULT);
+  const saved = S.get(TONE_KEY);
+  if (saved) toneState = { ...toneState, ...saved };
 
-BEBIDAS: Refri lata R$7 | Coca 220ml R$5 | Coca 600ml R$9 | Água R$4 | Suco R$5 | Chá Gelado R$8 | Baer Mate R$13 | Budweiser R$9
+  renderDados();
+  pingGas();
 
-DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas.`
-  };
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+};
 
-  window.onload = () => {
-    // Splash: some após 2.2s com fade
-    setTimeout(() => {
-      const s = document.getElementById('splash');
-      s.classList.add('hide');
-      setTimeout(() => s.remove(), 650);
-    }, 2200);
+// ── GAS helper (GET para evitar CORS) ──
+async function gasGet(params) {
+  const cfg = S.get(CFG_KEY);
+  const url = cfg.gasUrl + '?' + new URLSearchParams(params).toString();
+  const r = await fetch(url);
+  return r.json();
+}
 
-    if (!S.get(CFG_KEY)) S.set(CFG_KEY, DEFAULT_CFG);
-    entrarApp(S.get(CFG_KEY));
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
-  };
-
-  function salvarSetup() {
-    const cfg = {
-      gasUrl:   document.getElementById('s-gasurl').value.trim(),
-      nome:     document.getElementById('s-nome').value.trim(),
-      horario:  document.getElementById('s-horario').value.trim(),
-      telefone: document.getElementById('s-tel').value.trim(),
-      cardapio: document.getElementById('s-cardapio').value.trim(),
-    };
-    if (!cfg.gasUrl) { toast('⚠️ Cole a URL do Web App'); return; }
-    S.set(CFG_KEY, cfg);
-    entrarApp(cfg);
+async function pingGas() {
+  try {
+    const j = await gasGet({ acao: 'ping' });
+    const d = document.getElementById('status-dot');
+    d.style.background = j.ok ? '#00C853' : '#D50000';
+    d.title = j.ok ? 'Conectado ✅' : 'Offline ⚠️';
+  } catch {
+    const d = document.getElementById('status-dot');
+    d.style.background = '#D50000';
+    d.title = 'Offline ⚠️';
   }
+}
 
-  function entrarApp(cfg) {
-    document.getElementById('setup-screen').style.display = 'none';
-    document.getElementById('app-screen').style.display   = 'block';
-    pingGas(cfg.gasUrl);
-  }
+// ── PANELS ──
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name === 'contatos') carregarContatos();
+}
 
-  async function pingGas(url) {
-    try {
-      const r = await fetch(url + '?acao=ping');
-      const j = await r.json();
-      const dot = document.getElementById('status-dot');
-      dot.style.background = j.ok ? '#00FF66' : '#FF0033';
-      dot.title = j.ok ? 'Conectado ✅' : 'Offline ⚠️';
-    } catch {
-      const dot = document.getElementById('status-dot');
-      dot.style.background = '#FF0033';
-      dot.title = 'Offline ⚠️';
-    }
-  }
+// ── SITUAÇÕES ──
+function useSit(el, texto) {
+  document.querySelectorAll('.sit-pill').forEach(p => p.style.background = '');
+  el.style.background = 'var(--gold)';
+  el.style.color = 'var(--blue)';
+  document.getElementById('msg-input').value = texto;
+  showPanel('copilot');
+  setTimeout(() => {
+    el.style.background = '';
+    el.style.color = '';
+  }, 1500);
+}
 
-  function showPanel(name) {
-    ['resposta','contato','lista'].forEach(p => {
-      document.getElementById('panel-'+p).style.display = p===name ? 'block' : 'none';
-      document.getElementById('nav-'+p).classList.toggle('active', p===name);
+// ── GERAR RESPOSTA ──
+async function gerarResposta() {
+  const msg = document.getElementById('msg-input').value.trim();
+  if (!msg) { toast('⚠️ Cole a mensagem do cliente', 'err'); return; }
+  const cfg = S.get(CFG_KEY);
+
+  document.getElementById('btn-gerar').disabled = true;
+  document.getElementById('loader').classList.add('show');
+  document.getElementById('output-card').style.display = 'none';
+
+  // Monta contexto rico
+  const extra = buildExtraContext(cfg);
+
+  try {
+    const j = await gasGet({
+      acao: 'gerar_resposta',
+      mensagem: msg,
+      contexto: extra
     });
-    if (name === 'lista') carregarContatos();
+    const resp = j?.data?.resposta || '⚠️ Sem resposta.';
+    document.getElementById('msg-output').value = resp;
+    document.getElementById('output-card').style.display = 'block';
+    document.getElementById('output-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } catch {
+    toast('❌ Erro ao conectar', 'err');
+  } finally {
+    document.getElementById('btn-gerar').disabled = false;
+    document.getElementById('loader').classList.remove('show');
   }
+}
 
-  function useChip(el, texto) {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('msg-input').value = texto;
-  }
+function buildExtraContext(cfg) {
+  const t = toneState;
+  const tamanhoMap = { 'Curta': '1-2 frases', 'Média': '2-3 frases', 'Longa': '3-5 frases' };
+  let ctx = `
+TOM: ${t.tom}.
+FOCO: ${t.foco}.
+TAMANHO: ${tamanhoMap[t.tamanho] || '2-3 frases'}.
+${t.cta ? 'SEMPRE termine com uma pergunta ou call-to-action.' : 'Não precisa terminar com pergunta.'}
+${t.nomeNaResposta ? `Pode mencionar "${cfg.nome}" na resposta se natural.` : 'Não mencione o nome do negócio.'}
+${t.emoji ? 'Use 1-2 emojis relevantes na resposta.' : 'Não use emojis.'}
+PAGAMENTOS ACEITOS: ${cfg.pagamento || 'não informado'}.
+ENDEREÇO: ${cfg.endereco || 'não informado'}.
+${t.extra ? 'INSTRUÇÃO ESPECIAL: ' + t.extra : ''}
+  `.trim();
+  return ctx;
+}
 
+async function regenerar() {
+  document.getElementById('output-card').style.display = 'none';
+  await gerarResposta();
+}
 
-  // ── helper GET — resolve CORS do GAS ──
-  async function gasGet(params) {
-    const cfg = S.get(CFG_KEY);
-    const url = cfg.gasUrl + '?' + new URLSearchParams(params).toString();
-    const r   = await fetch(url);
-    return r.json();
-  }
+// ── COPIAR ──
+function copiar() {
+  const t = document.getElementById('msg-output').value;
+  navigator.clipboard.writeText(t).then(() => {
+    toast('✅ Copiado! Cole no WhatsApp', 'ok');
+    const btn = document.querySelector('.btn-copy');
+    btn.textContent = '✅ COPIADO!';
+    setTimeout(() => btn.textContent = '📋 COPIAR E COLAR NO WHATSAPP', 2000);
+  });
+}
 
-  async function gerarResposta() {
-    const msg = document.getElementById('msg-input').value.trim();
-    if (!msg) { toast('⚠️ Escreva a mensagem do cliente'); return; }
-    const cfg = S.get(CFG_KEY);
-    if (!cfg?.gasUrl) { toast('⚠️ Configure o sistema'); return; }
+// ── SALVAR CONTATO ──
+function salvarContatoRapido() {
+  const msg = document.getElementById('msg-input').value;
+  document.getElementById('cm-assunto').value = msg.substring(0, 80);
+  openModal('contato-modal');
+}
 
-    document.getElementById('btn-gerar').disabled = true;
-    document.getElementById('loader-ia').classList.add('show');
-    document.getElementById('resposta-wrapper').style.display = 'none';
-
-    try {
-      const j = await gasGet({
-        acao: 'gerar_resposta',
-        mensagem: msg,
-        contexto: document.getElementById('ctx-extra').value || ''
-      });
-      document.getElementById('resposta-text').textContent = j?.data?.resposta || '⚠️ Sem resposta.';
-      document.getElementById('resposta-wrapper').style.display = 'block';
-    } catch {
-      toast('❌ Erro ao conectar ao sistema');
-    } finally {
-      document.getElementById('btn-gerar').disabled = false;
-      document.getElementById('loader-ia').classList.remove('show');
+async function confirmarSalvarContato() {
+  const cfg = S.get(CFG_KEY);
+  const dados = {
+    acao:     'salvar_contato',
+    nome:     document.getElementById('cm-nome').value,
+    telefone: document.getElementById('cm-tel').value,
+    assunto:  document.getElementById('cm-assunto').value,
+    status:   document.getElementById('cm-status').value,
+    obs:      document.getElementById('cm-obs').value,
+  };
+  if (!dados.nome && !dados.telefone) { toast('⚠️ Informe nome ou telefone', 'err'); return; }
+  try {
+    const j = await gasGet(dados);
+    if (j.ok) {
+      toast('✅ Contato salvo!', 'ok');
+      closeModal('contato-modal');
+      ['cm-nome','cm-tel','cm-assunto','cm-obs'].forEach(id => document.getElementById(id).value = '');
     }
-  }
+  } catch { toast('❌ Erro ao salvar', 'err'); }
+}
 
-  function copiarResposta() {
-    const t = document.getElementById('resposta-text').textContent;
-    navigator.clipboard.writeText(t).then(() => {
-      toast('✅ Copiado! Cole no WhatsApp.');
-      document.querySelector('.copy-fab').textContent = 'COPIADO!';
-      setTimeout(() => document.querySelector('.copy-fab').textContent = 'COPIAR', 2000);
-    });
+// ── LISTA CONTATOS ──
+async function carregarContatos() {
+  const box = document.getElementById('lista-contatos');
+  box.innerHTML = '<p style="text-align:center;font-weight:bold;color:var(--blue);padding:20px;font-size:12px;">CARREGANDO...</p>';
+  try {
+    const j = await gasGet({ acao: 'listar_contatos' });
+    const list = j?.data || [];
+    if (!list.length) { box.innerHTML = '<p style="text-align:center;padding:20px;font-weight:bold;font-size:12px;color:var(--muted);">Nenhum contato ainda.</p>'; return; }
+    box.innerHTML = list.slice(0,40).map(c => {
+      const sc = c['Status']==='Novo' ? 'b-novo' : c['Status']==='Em atendimento' ? 'b-em' : 'b-fin';
+      return `<div class="ci">
+        <div>
+          <div class="ci-nome">${c['Nome']||'Sem nome'}</div>
+          <div class="ci-det">${c['Telefone']||'—'} · ${c['Data']||''}</div>
+          <div class="ci-ped">${c['Pedido / Assunto']||''}</div>
+        </div>
+        <span class="badge ${sc}">${c['Status']}</span>
+      </div>`;
+    }).join('');
+  } catch {
+    box.innerHTML = '<p style="color:var(--red);text-align:center;font-weight:bold;padding:20px;font-size:12px;">ERRO AO CARREGAR</p>';
   }
+}
 
-  async function salvarContato() {
-    const cfg = S.get(CFG_KEY);
-    if (!cfg?.gasUrl) { toast('⚠️ Configure o sistema'); return; }
-    const dados = {
-      nome:     document.getElementById('c-nome').value,
-      telefone: document.getElementById('c-tel').value,
-      assunto:  document.getElementById('c-assunto').value,
-      status:   document.getElementById('c-status').value,
-      obs:      document.getElementById('c-obs').value,
-    };
-    if (!dados.nome && !dados.telefone) { toast('⚠️ Informe nome ou telefone'); return; }
-    try {
-      const j = await gasGet({ acao: 'salvar_contato', ...dados });
-      if (j.ok) {
-        toast('✅ Contato salvo!');
-        ['c-nome','c-tel','c-assunto','c-obs'].forEach(id => document.getElementById(id).value = '');
-      }
-    } catch { toast('❌ Erro ao salvar'); }
-  }
+// ── TONE / FOCO / SLIDER ──
+function setTone(el) {
+  el.closest('.tone-row').querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  toneState.tom = el.dataset.tone;
+  S.set(TONE_KEY, toneState);
+}
 
-  async function carregarContatos() {
-    const cfg = S.get(CFG_KEY);
-    if (!cfg?.gasUrl) return;
-    const box = document.getElementById('lista-wrapper');
-    box.innerHTML = '<p style="text-align:center;font-weight:bold;color:var(--royal-blue);padding:20px;">CARREGANDO...</p>';
-    try {
-      const j    = await gasGet({ acao: 'listar_contatos' });
-      const list = j?.data || [];
-      if (!list.length) { box.innerHTML = '<p style="text-align:center;padding:20px;font-weight:bold;">Nenhum contato ainda.</p>'; return; }
-      box.innerHTML = list.slice(0,30).map(c => {
-        const sc = c['Status'] === 'Novo' ? 's-novo' : c['Status'] === 'Em atendimento' ? 's-em' : 's-fin';
-        return `<div class="contato-item">
-          <div>
-            <div class="ci-nome">${c['Nome']||'Sem nome'}</div>
-            <div class="ci-tel">${c['Telefone']||'—'}</div>
-            <div class="ci-ped">${c['Pedido / Assunto']||''}</div>
-          </div>
-          <span class="status-badge ${sc}">${c['Status']}</span>
-        </div>`;
-      }).join('');
-    } catch {
-      box.innerHTML = '<p style="color:red;text-align:center;font-weight:bold;padding:20px;">ERRO AO CARREGAR</p>';
-    }
-  }
+function setFoco(el) {
+  el.closest('.tone-row').querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  toneState.foco = el.dataset.foco;
+  S.set(TONE_KEY, toneState);
+}
 
-  function abrirConfig() {
-    const cfg = S.get(CFG_KEY) || {};
+function updSlider(el, svId, labels) {
+  const val = labels[el.value - 1];
+  document.getElementById(svId).textContent = val;
+  toneState.tamanho = val;
+  S.set(TONE_KEY, toneState);
+}
+
+document.addEventListener('change', e => {
+  if (e.target.id === 'tg-cta')   { toneState.cta  = e.target.checked; S.set(TONE_KEY, toneState); }
+  if (e.target.id === 'tg-nome')  { toneState.nomeNaResposta = e.target.checked; S.set(TONE_KEY, toneState); }
+  if (e.target.id === 'tg-emoji') { toneState.emoji = e.target.checked; S.set(TONE_KEY, toneState); }
+});
+
+document.addEventListener('input', e => {
+  if (e.target.id === 'instrucao-extra') { toneState.extra = e.target.value; S.set(TONE_KEY, toneState); }
+});
+
+// ── DADOS RÁPIDOS ──
+function renderDados() {
+  const cfg = S.get(CFG_KEY) || DEFAULT;
+
+  const tiles = [
+    { label: 'Horário', val: cfg.horario },
+    { label: 'Telefone / WhatsApp', val: cfg.telefone },
+    { label: 'Endereço', val: cfg.endereco || 'Não configurado' },
+    { label: 'Pagamentos', val: cfg.pagamento },
+  ];
+
+  document.getElementById('tiles-info').innerHTML = tiles.map(t => `
+    <div class="info-tile">
+      <div><div class="it-label">${t.label}</div><div class="it-val">${t.val}</div></div>
+      <button class="it-copy" onclick="copiarTexto('${t.val.replace(/'/g,"\\'")}')">COPIAR</button>
+    </div>`).join('');
+
+  // Cardápio por linhas
+  const linhas = (cfg.cardapio || '').split('\n').filter(l => l.trim());
+  document.getElementById('tiles-cardapio').innerHTML = linhas.map(l => `
+    <div class="info-tile">
+      <div class="it-val" style="font-size:12px;">${l}</div>
+      <button class="it-copy" onclick="copiarTexto('${l.replace(/'/g,"\\'")}')">COPIAR</button>
+    </div>`).join('');
+}
+
+function copiarTexto(txt) {
+  navigator.clipboard.writeText(txt).then(() => toast('✅ Copiado!', 'ok'));
+}
+
+// ── CONFIG MODAL ──
+function openModal(id) {
+  if (id === 'cfg-modal') {
+    const cfg = S.get(CFG_KEY) || DEFAULT;
     document.getElementById('cfg-gasurl').value   = cfg.gasUrl   || '';
     document.getElementById('cfg-nome').value     = cfg.nome     || '';
     document.getElementById('cfg-horario').value  = cfg.horario  || '';
     document.getElementById('cfg-tel').value      = cfg.telefone || '';
     document.getElementById('cfg-cardapio').value = cfg.cardapio || '';
-    document.getElementById('config-modal').classList.add('open');
+    document.getElementById('cfg-endereco').value = cfg.endereco || '';
+    document.getElementById('cfg-pagamento').value= cfg.pagamento|| '';
   }
+  document.getElementById(id).classList.add('open');
+}
 
-  function fecharConfig() { document.getElementById('config-modal').classList.remove('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-  function salvarConfig() {
-    const cfg = {
-      gasUrl:   document.getElementById('cfg-gasurl').value.trim(),
-      nome:     document.getElementById('cfg-nome').value.trim(),
-      horario:  document.getElementById('cfg-horario').value.trim(),
-      telefone: document.getElementById('cfg-tel').value.trim(),
-      cardapio: document.getElementById('cfg-cardapio').value.trim(),
-    };
-    S.set(CFG_KEY, cfg);
-    entrarApp(cfg);
-    fecharConfig();
-    toast('✅ Configurações salvas!');
-  }
+function salvarConfig() {
+  const cfg = {
+    gasUrl:    document.getElementById('cfg-gasurl').value.trim(),
+    nome:      document.getElementById('cfg-nome').value.trim(),
+    horario:   document.getElementById('cfg-horario').value.trim(),
+    telefone:  document.getElementById('cfg-tel').value.trim(),
+    cardapio:  document.getElementById('cfg-cardapio').value.trim(),
+    endereco:  document.getElementById('cfg-endereco').value.trim(),
+    pagamento: document.getElementById('cfg-pagamento').value.trim(),
+  };
+  S.set(CFG_KEY, cfg);
+  renderDados();
+  closeModal('cfg-modal');
+  toast('✅ Configurações salvas!', 'ok');
+  pingGas();
+}
 
-  function limparDados() {
-    if (!confirm('Tem certeza? Isso apagará os dados do app.')) return;
-    S.del(CFG_KEY);
-    location.reload();
-  }
+function limparDados() {
+  if (!confirm('Apagar tudo e redefinir?')) return;
+  S.del(CFG_KEY); S.del(TONE_KEY);
+  location.reload();
+}
 
-  let _toastTimer;
-  function toast(msg) {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(_toastTimer);
-    _toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
-  }
+// ── TOAST ──
+let _tt;
+function toast(msg, tipo='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `toast show ${tipo}`;
+  clearTimeout(_tt);
+  _tt = setTimeout(() => el.classList.remove('show'), 3000);
+}
 </script>
 </body>
 </html>
