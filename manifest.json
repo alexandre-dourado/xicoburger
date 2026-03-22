@@ -1,0 +1,22 @@
+{
+  "name": "Xicos Burger — Copilot",
+  "short_name": "Xicos",
+  "description": "Assistente de atendimento WhatsApp com IA",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F4F0E6",
+  "theme_color": "#0028D4",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/6RGQM108/image.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.ibb.co/6RGQM108/image.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
