@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Estratégia de Venda — Copilot Atendimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&family=Yellowtail&display=swap" rel="stylesheet" />
+<style>
+  :root { --blue:#0028D4; --gold:#FFC000; --bg:#F4F0E6; --dark:#001575; --white:#fff; --red:#D50000; --green:#00C853; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--dark); font-family:'Montserrat',sans-serif; font-size:15px; font-weight:500; line-height:1.7; }
+
+  .hero { background:var(--blue); border-bottom:8px solid var(--gold); padding:48px 24px 40px; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:"VENDA VENDA VENDA VENDA VENDA VENDA VENDA VENDA VENDA VENDA VENDA VENDA VENDA"; position:absolute; inset:0; font-size:10vw; font-weight:900; color:var(--white); opacity:0.03; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; pointer-events:none; }
+  .hero h1 { font-size:clamp(24px,5vw,48px); font-weight:900; color:var(--white); letter-spacing:3px; text-transform:uppercase; line-height:1.1; margin-bottom:12px; }
+  .hero .sub { font-family:'Yellowtail',cursive; font-size:clamp(18px,3vw,28px); color:var(--gold); }
+  .hero p { color:rgba(255,255,255,0.7); margin-top:16px; max-width:600px; margin-left:auto; margin-right:auto; }
+
+  .wrap { max-width:860px; margin:0 auto; padding:40px 20px; }
+
+  h2 { font-size:22px; font-weight:900; text-transform:uppercase; letter-spacing:2px; color:var(--blue); border-bottom:4px solid var(--gold); padding-bottom:8px; margin:40px 0 20px; }
+  h3 { font-size:16px; font-weight:900; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin:20px 0 10px; }
+
+  .card { background:var(--white); border:3px solid var(--blue); padding:24px; margin-bottom:16px; box-shadow:6px 6px 0 var(--blue); position:relative; }
+  .card.gold { border-color:var(--gold); box-shadow:6px 6px 0 var(--gold); }
+  .card.green { border-color:var(--green); box-shadow:6px 6px 0 var(--green); }
+  .card.red { border-color:var(--red); box-shadow:6px 6px 0 var(--red); }
+
+  .tag { display:inline-block; padding:3px 10px; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:1px; border:2px solid currentColor; margin-bottom:10px; }
+  .tag-blue  { color:var(--blue); }
+  .tag-gold  { color:var(--gold); background:var(--blue); border-color:var(--gold); }
+  .tag-green { color:var(--green); }
+  .tag-red   { color:var(--red); }
+
+  .price-box { background:var(--blue); color:var(--white); padding:20px 24px; margin:12px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .price-box .p-label { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2px; opacity:.7; }
+  .price-box .p-val   { font-size:32px; font-weight:900; color:var(--gold); }
+  .price-box .p-desc  { font-size:13px; opacity:.8; }
+
+  .script-box { background:var(--bg); border-left:5px solid var(--gold); padding:16px 20px; font-style:italic; font-size:14px; line-height:1.6; margin:12px 0; }
+  .script-box strong { font-style:normal; font-weight:900; color:var(--blue); display:block; margin-bottom:6px; font-size:11px; text-transform:uppercase; letter-spacing:1px; }
+
+  .vs-table { width:100%; border-collapse:collapse; margin:16px 0; }
+  .vs-table th { background:var(--blue); color:var(--gold); font-weight:900; text-transform:uppercase; letter-spacing:1px; padding:10px 14px; font-size:12px; text-align:left; }
+  .vs-table td { padding:10px 14px; border-bottom:2px solid var(--bg); font-size:13px; }
+  .vs-table tr:nth-child(even) td { background:#f8f5ee; }
+  .vs-table .bad  { color:var(--red);   font-weight:700; }
+  .vs-table .good { color:var(--green); font-weight:700; }
+
+  .objection { margin-bottom:14px; }
+  .obj-q { background:var(--blue); color:var(--white); padding:10px 14px; font-weight:700; font-size:13px; }
+  .obj-a { background:var(--white); border:2px solid var(--blue); border-top:none; padding:12px 14px; font-size:13px; }
+  .obj-a strong { color:var(--blue); }
+
+  .steps { counter-reset:step; }
+  .step { display:flex; gap:16px; margin-bottom:16px; align-items:flex-start; }
+  .step-num { counter-increment:step; background:var(--blue); color:var(--gold); font-weight:900; font-size:18px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-body h4 { font-weight:900; color:var(--blue); text-transform:uppercase; letter-spacing:1px; font-size:13px; margin-bottom:4px; }
+  .step-body p  { font-size:13px; }
+
+  .highlight { background:var(--gold); border:3px solid var(--blue); padding:20px 24px; margin:20px 0; }
+  .highlight p { font-weight:700; font-size:15px; }
+
+  .faq-item { margin-bottom:12px; }
+  .faq-q { font-weight:900; color:var(--blue); cursor:pointer; padding:12px 14px; background:var(--white); border:2px solid var(--blue); display:flex; justify-content:space-between; }
+  .faq-a { display:none; padding:12px 14px; background:var(--bg); border:2px solid var(--blue); border-top:none; font-size:13px; }
+  .faq-item.open .faq-a { display:block; }
+  .faq-item.open .faq-q { background:var(--blue); color:var(--gold); }
+
+  .upsell-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:16px 0; }
+  .upsell-card { background:var(--white); border:3px solid var(--blue); padding:16px; box-shadow:4px 4px 0 var(--blue); }
+  .upsell-card h4 { font-weight:900; color:var(--blue); font-size:13px; text-transform:uppercase; margin-bottom:6px; }
+  .upsell-card .price { font-size:20px; font-weight:900; color:var(--gold); background:var(--blue); display:inline-block; padding:2px 10px; margin:6px 0; }
+  .upsell-card p { font-size:12px; color:#555; }
+
+  footer { background:var(--blue); border-top:6px solid var(--gold); padding:30px 20px; text-align:center; color:rgba(255,255,255,0.6); font-size:12px; margin-top:60px; }
+  footer strong { color:var(--gold); }
+
+  @media(max-width:600px) {
+    .price-box { flex-direction:column; }
+    .vs-table { font-size:12px; }
+    .vs-table th, .vs-table td { padding:8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="sub">Estratégia Completa</div>
+  <h1>Copilot de Atendimento<br>Como Vender, Cobrar e Fechar</h1>
+  <p>Tudo que você precisa para vender o produto, derrubar objeções, cobrar o preço certo e crescer.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ── POSICIONAMENTO ── -->
+  <h2>🎯 Posicionamento do Produto</h2>
+
+  <div class="card gold">
+    <div class="tag tag-gold">A frase que vende</div>
+    <p style="font-size:20px;font-weight:900;color:var(--blue);line-height:1.3;">"Seu atendimento no WhatsApp vai parecer de empresa grande — mesmo sendo você sozinho respondendo."</p>
+  </div>
+
+  <div class="card">
+    <div class="tag tag-blue">O que é</div>
+    <p>Um assistente de IA instalado no celular do dono (ou do atendente) que <strong>sugere respostas prontas, humanizadas e profissionais</strong> para cada mensagem recebida no WhatsApp. O funcionário cola a mensagem do cliente, toca em um botão, e recebe uma resposta calibrada pro tom e estilo do negócio. Copia, cola, envia.</p>
+  </div>
+
+  <div class="card">
+    <div class="tag tag-blue">O problema que resolve</div>
+    <ul style="padding-left:18px;line-height:2;">
+      <li>Atendente responde mal, grosseiro ou sem padrão</li>
+      <li>Dono perde cliente porque demorou ou deu resposta ruim numa reclamação</li>
+      <li>Ninguém sabe lidar com cliente insatisfeito sem escalar</li>
+      <li>Cada funcionário atende diferente — sem identidade de marca</li>
+      <li>Oportunidade perdida de fidelizar cliente que reclamou</li>
+    </ul>
+  </div>
+
+  <!-- ── VS CHATBOT ── -->
+  <h2>⚔️ Copilot vs. Chatbot — Argumento de Venda</h2>
+
+  <table class="vs-table">
+    <tr><th>Critério</th><th>Chatbot automático</th><th>Copilot (nosso)</th></tr>
+    <tr><td>Custo</td><td class="bad">R$300–800/mês</td><td class="good">R$397 único*</td></tr>
+    <tr><td>API do WhatsApp</td><td class="bad">Paga e burocrática</td><td class="good">Qualquer WhatsApp</td></tr>
+    <tr><td>Risco de erro</td><td class="bad">Responde sozinho, pode dar ruim</td><td class="good">Você revisa antes de enviar</td></tr>
+    <tr><td>Reclamações</td><td class="bad">Bot não sabe lidar</td><td class="good">IA especializada em resolver</td></tr>
+    <tr><td>Configuração</td><td class="bad">Semanas + técnico</td><td class="good">1 dia, você usa no mesmo dia</td></tr>
+    <tr><td>Tom personalizado</td><td class="bad">Genérico</td><td class="good">Ajuste fino por deslizador</td></tr>
+    <tr><td>Fidelização</td><td class="bad">Robótico, distancia</td><td class="good">Humanizado, aproxima</td></tr>
+  </table>
+
+  <div class="highlight">
+    <p>💡 <strong>Frase de bolso para objeção "já tenho chatbot":</strong><br>
+    "Chatbot responde <em>no lugar</em> de você e erra. Isso aqui te ajuda a responder <em>melhor</em> que qualquer chatbot — com a sua cara, na hora que você quiser."</p>
+  </div>
+
+  <!-- ── PREÇO E MODELO ── -->
+  <h2>💰 Modelo de Preço e Cobrança</h2>
+
+  <div class="price-box">
+    <div><div class="p-label">Primeiros clientes (validação)</div><div class="p-val">R$ 297</div><div class="p-desc">Implantação completa + 30 dias de suporte</div></div>
+  </div>
+  <div class="price-box">
+    <div><div class="p-label">Preço padrão (a partir do 4º cliente)</div><div class="p-val">R$ 397</div><div class="p-desc">Implantação + onboarding + 30 dias de suporte</div></div>
+  </div>
+  <div class="price-box" style="background:var(--gold);">
+    <div><div class="p-label" style="color:var(--blue);opacity:1;">Manutenção mensal (opcional)</div><div class="p-val" style="color:var(--blue);">R$ 97/mês</div><div class="p-desc" style="color:var(--blue);">Atualização de cardápio, ajuste de prompts, suporte</div></div>
+  </div>
+
+  <div class="card green">
+    <div class="tag tag-green">Modelo de recorrência recomendado</div>
+    <p>Após a venda inicial, ofereça o <strong>Plano Manutenção R$97/mês</strong> que inclui:</p>
+    <ul style="padding-left:18px;margin-top:10px;line-height:2;font-size:13px;">
+      <li>Atualização do cardápio quando mudar</li>
+      <li>Calibração mensal do tom e prompts</li>
+      <li>1 novo nicho/situação adicionado por mês</li>
+      <li>Suporte via WhatsApp em até 24h</li>
+      <li>Acesso a novas features quando lançar</li>
+    </ul>
+    <p style="margin-top:12px;font-weight:700;">5 clientes pagando R$97/mês = R$485 recorrente todo mês. Sem trabalho adicional.</p>
+  </div>
+
+  <div class="card">
+    <div class="tag tag-blue">Como cobrar</div>
+    <p><strong>Pix na hora.</strong> Não fiado, não depois, não parcelado (a menos que seja necessário fechar).</p>
+    <p style="margin-top:8px;">Script: <em>"Você me passa o Pix e eu já começo a configurar agora mesmo. Em 24h você já tá usando."</em></p>
+    <p style="margin-top:8px;font-size:13px;color:#666;">Parcelamento emergencial: 2x sem juros via cartão (use link de pagamento: Mercado Pago, PagSeguro ou similar).</p>
+  </div>
+
+  <!-- ── SCRIPTS ── -->
+  <h2>📱 Scripts de Prospecção NINJA</h2>
+
+  <h3>Script 1 — Via amigo / indicação quente</h3>
+  <div class="script-box">
+    <strong>Seu amigo diz para o dono:</strong>
+    "Ei [nome], tenho um amigo que fez um negócio aqui que eu queria te mostrar. Ele instalou um sistema que ajuda a responder o WhatsApp melhor — não é chatbot, é mais como um assistente que sugere as respostas. Você vê a sugestão e decide o que manda. Vi funcionando e achei útil pra você. Posso pedir pra ele te mandar um vídeo rápido mostrando?"
+  </div>
+
+  <h3>Script 2 — Abordagem direta (WhatsApp/Instagram)</h3>
+  <div class="script-box">
+    <strong>Você manda pro dono:</strong>
+    "Oi [nome], tudo bem? Vi que você tem uma hamburgueria aqui e me identifiquei — atuo ajudando pequenos negócios a melhorarem o atendimento pelo WhatsApp com IA. Não é chatbot automático. É um assistente que sugere respostas prontas pro seu atendente — ele copia e cola. Tem um vídeo de 1 min mostrando funcionando numa hamburgueria aqui, posso mandar?"
+  </div>
+
+  <h3>Script 3 — Após o "pode mandar o vídeo"</h3>
+  <div class="script-box">
+    <strong>Manda o vídeo + essa mensagem:</strong>
+    "Esse é o app rodando. O atendente cola a mensagem do cliente, toca em 'Gerar Resposta', e a IA já sugere uma resposta no tom certo pro negócio. Dá pra ajustar se quer mais formal, mais acolhedor, mais curta... É instalado no celular como um app normal. Configuro pro seu negócio em 1 dia por R$297. O cardápio e horário já ficam dentro do sistema, então a IA já sabe tudo. Quer que eu mostre ao vivo por vídeo chamada de 15 min?"
+  </div>
+
+  <h3>Script 4 — Fechamento</h3>
+  <div class="script-box">
+    <strong>Na ligação/vídeo chamada:</strong>
+    "Então, o que você acha? Consigo configurar tudo até amanhã. Me passa o Pix e a gente já começa — você já testa essa semana. Se não gostar nos primeiros 7 dias, devolvendo sem questão."
+  </div>
+
+  <h3>Script 5 — Follow-up (cliente sumiu após ver o vídeo)</h3>
+  <div class="script-box">
+    <strong>Manda 48h depois:</strong>
+    "Oi [nome], só passando! Você chegou a testar o vídeo? Tô fazendo por R$297 essa semana ainda pra fechar a carteira de clientes iniciais. Depois sobe pra R$397. Quer aproveitar?"
+  </div>
+
+  <!-- ── OBJEÇÕES ── -->
+  <h2>🛡️ Derrubador de Objeções</h2>
+
+  <div class="objection">
+    <div class="obj-q">💬 "Tá caro, não tenho esse dinheiro agora"</div>
+    <div class="obj-a">
+      <strong>Resposta:</strong> "Entendo. Mas pensa: se você perder um cliente por resposta ruim, já perdeu R$30–50 de ticket. Em 10 dias o sistema se paga. Posso fazer em 2x de R$150 pra você. Funciona?"<br><br>
+      <em>Alternativa:</em> "Quanto você gastaria num funcionário que responde bem o WhatsApp 6h por dia? R$800, R$1.000/mês? Isso aqui é R$297 uma vez só."
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="obj-q">💬 "Já tenho chatbot / já uso o ChatGPT"</div>
+    <div class="obj-a">
+      <strong>Resposta:</strong> "Chatbot automático responde sem você ver e pode errar feio, principalmente em reclamação. ChatGPT genérico não conhece seu cardápio, seu tom, suas situações. Esse aqui é calibrado pro SEU negócio — o atendente só copia e cola, mas você sempre vê antes de enviar. É a diferença entre automação arriscada e assistência confiável."
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="obj-q">💬 "Meu atendimento já tá bom"</div>
+    <div class="obj-a">
+      <strong>Resposta:</strong> "Que ótimo! Então você vai adorar quando um funcionário novo entrar ou quando você tiver ocupado numa sexta à noite — o padrão fica igual mesmo sem você. O sistema garante consistência, não substitui quem já faz bem."
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="obj-q">💬 "Não sei se meus funcionários vão usar"</div>
+    <div class="obj-a">
+      <strong>Resposta:</strong> "É mais fácil que mandar mensagem. Abre o app, cola a mensagem do cliente, toca no botão, copia. 10 segundos. Faço um treinamento de 10 min com sua equipe no dia da entrega."
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="obj-q">💬 "Vou pensar / falar com minha esposa / sócio"</div>
+    <div class="obj-a">
+      <strong>Resposta:</strong> "Claro! Me fala, qual é a maior dúvida que fica — o preço ou como funciona? [ouça a resposta] ... Ótimo. Posso te mandar um áudio explicando pra você mostrar pra ela/ele? Assim fica mais fácil."<br><br>
+      <em>Não deixe esfriar:</em> Marque um retorno concreto: "Quando você consegue dar uma resposta — amanhã à tarde tá bom?"
+    </div>
+  </div>
+
+  <div class="objection">
+    <div class="obj-q">💬 "E se não funcionar pra mim?"</div>
+    <div class="obj-a">
+      <strong>Resposta:</strong> "Dou 7 dias de garantia. Se você usar e não gostar, devolvo o dinheiro sem questionamento. Mas sabe o que acontece na prática? Em 3 dias o atendente já não quer mais trabalhar sem o sistema."
+    </div>
+  </div>
+
+  <!-- ── ONBOARDING ── -->
+  <h2>🚀 Fluxo de Onboarding</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Pagamento confirmado</h4>
+        <p>Pix recebido → manda mensagem: <em>"Ótimo! Vou configurar tudo agora. Me manda: cardápio completo com preços, horário de funcionamento, endereço e formas de pagamento."</em></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Deploy (você faz em ~45 min)</h4>
+        <p>Configura o GAS com os dados do cliente, atualiza o DEFAULT_CFG do PWA, sobe no GitHub. URL pronta.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Entrega + treinamento (vídeo chamada 15 min)</h4>
+        <p>Manda a URL do PWA. Mostra ao vivo: abre o app, cola uma mensagem de teste, gera resposta, copia. Mostra como ajustar o tom. Ensina a instalar na tela inicial do celular.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Acompanhamento D+3</h4>
+        <p><em>"Tudo certo? Alguma situação que a IA respondeu estranha?"</em> — Ajusta o prompt se necessário.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Upsell D+7</h4>
+        <p><em>"Você viu que dá pra atualizar o cardápio, ajustar o tom todo mês e ter suporte direto comigo por R$97/mês? Posso ativar pra você agora."</em></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Indicação D+14</h4>
+        <p><em>"Você conhece algum outro restaurante ou loja que tá com dificuldade no atendimento? Se fechar, te dou um mês grátis na manutenção."</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── UPSELL ── -->
+  <h2>📈 Upsells e Recorrência</h2>
+
+  <div class="upsell-grid">
+    <div class="upsell-card">
+      <h4>Manutenção Mensal</h4>
+      <div class="price">R$ 97/mês</div>
+      <p>Atualização de cardápio, calibração de prompts, suporte e novas features.</p>
+    </div>
+    <div class="upsell-card">
+      <h4>2ª Instalação</h4>
+      <div class="price">R$ 197</div>
+      <p>Segundo negócio ou filial do mesmo cliente. Produto pronto, só configurar.</p>
+    </div>
+    <div class="upsell-card">
+      <h4>Treinamento da Equipe</h4>
+      <div class="price">R$ 150</div>
+      <p>1h de treinamento ao vivo com todos os atendentes do negócio.</p>
+    </div>
+    <div class="upsell-card">
+      <h4>Personalização Premium</h4>
+      <div class="price">R$ 250</div>
+      <p>Criação de 10+ situações customizadas, tom totalmente personalizado, relatório mensal.</p>
+    </div>
+  </div>
+
+  <!-- ── FAQ ── -->
+  <h2>❓ FAQ — Perguntas Frequentes do Cliente</h2>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Precisa de internet para funcionar? <span>＋</span></div>
+    <div class="faq-a">Sim, precisa de internet para gerar as respostas. Mas o app abre offline — só a geração de IA precisa de conexão. Na prática, 100% dos momentos de atendimento têm internet disponível.</div>
+  </div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Funciona no iPhone? <span>＋</span></div>
+    <div class="faq-a">Sim. Funciona em qualquer celular com navegador Chrome ou Safari. É um app web — não precisa instalar pela App Store.</div>
+  </div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Precisa integrar com o WhatsApp? <span>＋</span></div>
+    <div class="faq-a">Não. O processo é simples: cliente manda mensagem no WhatsApp → atendente abre o Copilot → cola a mensagem → gera resposta → copia → cola de volta no WhatsApp. Sem integração, sem API paga, sem burocracia.</div>
+  </div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">A IA pode errar as respostas? <span>＋</span></div>
+    <div class="faq-a">Pode sugerir algo que precisa de ajuste, por isso o atendente sempre revisa antes de enviar. Mas com o cardápio e contexto do negócio configurados, os erros são raros. E a cada uso, você aprende a calibrar melhor o tom.</div>
+  </div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Quantas pessoas podem usar ao mesmo tempo? <span>＋</span></div>
+    <div class="faq-a">Ilimitado. Qualquer atendente com o link do app pode usar. Não tem limite de usuários ou de respostas geradas (a API gratuita do Gemini tem limite de ~1500 requisições/dia — mais que suficiente para qualquer pequeno negócio).</div>
+  </div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">E se eu quiser mudar o cardápio? <span>＋</span></div>
+    <div class="faq-a">Você atualiza direto nas configurações do app (ícone ⚙️). Se tiver o plano de manutenção, eu faço isso por você todo mês.</div>
+  </div>
+
+  <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-q">Tem algum custo mensal obrigatório? <span>＋</span></div>
+    <div class="faq-a">Não. O pagamento inicial é único e o produto funciona indefinidamente. A manutenção mensal é opcional — você só paga se quiser suporte e atualizações contínuas.</div>
+  </div>
+
+  <!-- ── NICHO ── -->
+  <h2>🎯 Nichos por Ordem de Prioridade</h2>
+
+  <div class="card">
+    <ol style="padding-left:18px;line-height:2.2;font-size:14px;">
+      <li><strong>Hamburguerias / lanchonetes</strong> — maior volume de mensagens, reclamações de ponto/entrega, ticket médio R$30–50</li>
+      <li><strong>Barbearias / salões</strong> — muito agendamento e confirmação, cliente fidelizado</li>
+      <li><strong>Pizzarias / delivery</strong> — pico de sexta/sábado, reclamações de tempo e ingredientes</li>
+      <li><strong>Clínicas / consultórios</strong> — confirmação de consulta, dúvidas sobre procedimentos</li>
+      <li><strong>Lojas de roupa / acessórios</strong> — disponibilidade, tamanho, prazo de entrega</li>
+      <li><strong>Autônomos (personal, nutricionista)</strong> — agendamento, cobrança, retorno de clientes</li>
+    </ol>
+  </div>
+
+  <!-- ── META 15 DIAS ── -->
+  <h2>📅 Meta: R$2.000 em 15 dias</h2>
+
+  <div class="card green">
+    <p style="font-size:20px;font-weight:900;color:var(--green);">5 clientes × R$397 = R$1.985 ✅</p>
+    <p style="margin-top:8px;font-size:13px;">Ou: 3 clientes × R$297 (validação) + 2 × R$397 = R$1.685<br>Mais 2 manutenções mensais de R$97 = <strong>R$1.879</strong></p>
+  </div>
+
+  <div class="card">
+    <div class="tag tag-blue">Semana 1</div>
+    <ul style="padding-left:18px;line-height:2;font-size:13px;">
+      <li>Deploy do demo com dados fictícios</li>
+      <li>Grava vídeo de 90s mostrando o sistema</li>
+      <li>Seu amigo aborda 10 pessoas (clientes da adega, conhecidos)</li>
+      <li>Você aborda 5 diretamente no Instagram/WhatsApp</li>
+      <li><strong>Meta: 2 clientes fechados</strong></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="tag tag-blue">Semana 2</div>
+    <ul style="padding-left:18px;line-height:2;font-size:13px;">
+      <li>Entrega os 2 primeiros clientes</li>
+      <li>Pede indicação imediatamente após entrega</li>
+      <li>Mais 15 abordagens novas</li>
+      <li><strong>Meta: mais 3 clientes fechados</strong></li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  <p>Copilot de Atendimento WhatsApp — <strong>Produto desenvolvido por Alexandre Dourado</strong></p>
+  <p style="margin-top:6px;">Stack: Google Apps Script · Gemini API · PWA · GitHub Pages</p>
+</footer>
+
+</body>
+</html>
