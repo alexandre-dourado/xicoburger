@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Google Sans', sans-serif;
+    background: #0f0f1a;
+    color: #e8e8f0;
+    font-size: 13px;
+    padding: 12px;
+    min-height: 100vh;
+  }
+  h2 { font-size: 15px; color: #ff6b35; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+  .card {
+    background: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .card h3 { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  textarea, input, select {
+    width: 100%;
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 6px;
+    color: #e8e8f0;
+    padding: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color .2s;
+  }
+  textarea:focus, input:focus { border-color: #ff6b35; }
+  textarea { min-height: 70px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all .2s;
+    margin-top: 8px;
+  }
+  .btn-primary { background: #ff6b35; color: #fff; width: 100%; justify-content: center; }
+  .btn-primary:hover { background: #ff8555; }
+  .btn-secondary { background: #2a2a4a; color: #ccc; }
+  .btn-secondary:hover { background: #3a3a5a; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .resposta-box {
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 50px;
+    color: #b8f5b0;
+    display: none;
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute; top: 6px; right: 6px;
+    background: #2a2a4a; border: none; border-radius: 4px;
+    color: #888; cursor: pointer; padding: 4px 8px; font-size: 11px;
+  }
+  .copy-btn:hover { color: #fff; }
+  .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+  .tag-novo { background: #1e3a5f; color: #5dade2; }
+  .tag-ok   { background: #1e4d3b; color: #58d68d; }
+  .tag-pend { background: #4d3319; color: #f0b27a; }
+  .contato-item {
+    border-bottom: 1px solid #1a1a2e;
+    padding: 8px 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .contato-item:last-child { border-bottom: none; }
+  .contato-nome { font-weight: 600; font-size: 13px; }
+  .contato-detalhe { font-size: 11px; color: #888; margin-top: 2px; }
+  select.status-sel {
+    width: auto; padding: 3px 6px; font-size: 11px; border-radius: 4px;
+  }
+  .loading { color: #888; font-size: 12px; margin-top: 8px; display: none; }
+  .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid #333; border-top-color: #ff6b35; border-radius: 50%; animation: spin .6s linear infinite; margin-right: 4px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .alert { padding: 8px 10px; border-radius: 6px; font-size: 12px; margin-top: 8px; display: none; }
+  .alert-ok  { background: #1e4d3b; color: #58d68d; border: 1px solid #2d6b50; }
+  .alert-err { background: #4d1e1e; color: #e74c3c; border: 1px solid #6b2d2d; }
+  .prompt-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .chip {
+    padding: 3px 8px; border-radius: 20px; background: #2a2a4a; color: #aaa;
+    cursor: pointer; font-size: 11px; border: 1px solid transparent; transition: all .15s;
+  }
+  .chip:hover { background: #ff6b35; color: #fff; border-color: #ff6b35; }
+  #tab-bar { display: flex; gap: 4px; margin-bottom: 14px; }
+  .tab-btn {
+    flex: 1; padding: 6px; border-radius: 8px; border: 1px solid #2a2a4a;
+    background: #1a1a2e; color: #888; cursor: pointer; font-size: 12px; text-align: center;
+    transition: all .2s;
+  }
+  .tab-btn.active { background: #ff6b35; color: #fff; border-color: #ff6b35; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+</style>
+</head>
+<body>
+
+<h2>🍔 Copilot Atendimento</h2>
+
+<div id="tab-bar">
+  <div class="tab-btn active" onclick="trocarTab('resposta')">💬 Resposta</div>
+  <div class="tab-btn" onclick="trocarTab('contato')">➕ Contato</div>
+  <div class="tab-btn" onclick="trocarTab('lista')">📋 Lista</div>
+</div>
+
+<!-- TAB: GERAR RESPOSTA -->
+<div id="tab-resposta" class="tab-panel active">
+  <div class="card">
+    <h3>💬 Mensagem do cliente</h3>
+    <div class="prompt-chips">
+      <span class="chip" onclick="usarChip('Qual o cardápio?')">cardápio?</span>
+      <span class="chip" onclick="usarChip('Faz entrega?')">entrega?</span>
+      <span class="chip" onclick="usarChip('Qual o horário?')">horário?</span>
+      <span class="chip" onclick="usarChip('Qual o preço do X-burguer?')">preço?</span>
+      <span class="chip" onclick="usarChip('Quero fazer um pedido')">pedido</span>
+      <span class="chip" onclick="usarChip('Vocês aceitam cartão?')">pagamento?</span>
+    </div>
+    <textarea id="msg-input" placeholder="Cole aqui a mensagem do cliente..."></textarea>
+    <input type="text" id="ctx-input" placeholder="Contexto extra (opcional)" style="margin-top:6px;" />
+    <button class="btn btn-primary" onclick="gerarResposta()">
+      ✨ Gerar resposta com IA
+    </button>
+    <div class="loading" id="loading-ia"><span class="spinner"></span>Gerando...</div>
+    <div class="resposta-box" id="resposta-box">
+      <button class="copy-btn" onclick="copiar()">📋 copiar</button>
+      <span id="resposta-texto"></span>
+    </div>
+    <div class="alert" id="alert-ia"></div>
+  </div>
+</div>
+
+<!-- TAB: SALVAR CONTATO -->
+<div id="tab-contato" class="tab-panel">
+  <div class="card">
+    <h3>➕ Novo contato / Lead</h3>
+    <input type="text" id="c-nome" placeholder="Nome do cliente" style="margin-bottom:6px;" />
+    <input type="text" id="c-tel" placeholder="Telefone / WhatsApp" style="margin-bottom:6px;" />
+    <textarea id="c-assunto" placeholder="Pedido ou assunto" style="min-height:50px; margin-bottom:6px;"></textarea>
+    <select id="c-status" style="margin-bottom:6px;">
+      <option value="Novo">🔵 Novo</option>
+      <option value="Em atendimento">🟡 Em atendimento</option>
+      <option value="Finalizado">🟢 Finalizado</option>
+    </select>
+    <input type="text" id="c-obs" placeholder="Observações (opcional)" style="margin-bottom:6px;" />
+    <button class="btn btn-primary" onclick="salvarContato()">💾 Salvar na planilha</button>
+    <div class="alert" id="alert-contato"></div>
+  </div>
+</div>
+
+<!-- TAB: LISTA DE CONTATOS -->
+<div id="tab-lista" class="tab-panel">
+  <div class="card">
+    <h3>📋 Últimos contatos</h3>
+    <button class="btn btn-secondary" onclick="carregarContatos()" style="margin-bottom:8px;">🔄 Atualizar</button>
+    <div id="lista-contatos" style="max-height:400px;overflow-y:auto;">
+      <p style="color:#888;font-size:12px;">Clique em "Atualizar" para carregar</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── GAS bridge ──
+  function chamarGas(acao, dados) {
+    return new Promise((res, rej) => {
+      google.script.run
+        .withSuccessHandler(r => res(r))
+        .withFailureHandler(e => rej(e))
+        .chamarAcao(acao, JSON.stringify(dados));
+    });
+  }
+
+  function trocarTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function usarChip(texto) {
+    document.getElementById('msg-input').value = texto;
+    document.getElementById('msg-input').focus();
+  }
+
+  function mostrarAlert(id, msg, tipo) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = 'alert alert-' + tipo;
+    el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 4000);
+  }
+
+  async function gerarResposta() {
+    const msg = document.getElementById('msg-input').value.trim();
+    if (!msg) { mostrarAlert('alert-ia', '⚠️ Digite a mensagem do cliente.', 'err'); return; }
+
+    document.getElementById('loading-ia').style.display = 'block';
+    document.getElementById('resposta-box').style.display = 'none';
+
+    try {
+      const r = await chamarGas('gerar_resposta', { mensagem: msg, contexto: document.getElementById('ctx-input').value });
+      document.getElementById('resposta-texto').textContent = r.resposta || '—';
+      document.getElementById('resposta-box').style.display = 'block';
+    } catch(e) {
+      mostrarAlert('alert-ia', '❌ Erro: ' + e.message, 'err');
+    } finally {
+      document.getElementById('loading-ia').style.display = 'none';
+    }
+  }
+
+  async function salvarContato() {
+    const dados = {
+      nome:     document.getElementById('c-nome').value,
+      telefone: document.getElementById('c-tel').value,
+      assunto:  document.getElementById('c-assunto').value,
+      status:   document.getElementById('c-status').value,
+      obs:      document.getElementById('c-obs').value,
+    };
+    if (!dados.nome && !dados.telefone) {
+      mostrarAlert('alert-contato', '⚠️ Preencha nome ou telefone.', 'err'); return;
+    }
+    try {
+      await chamarGas('salvar_contato', dados);
+      mostrarAlert('alert-contato', '✅ Contato salvo!', 'ok');
+      ['c-nome','c-tel','c-assunto','c-obs'].forEach(id => document.getElementById(id).value = '');
+    } catch(e) {
+      mostrarAlert('alert-contato', '❌ Erro: ' + e.message, 'err');
+    }
+  }
+
+  async function carregarContatos() {
+    const box = document.getElementById('lista-contatos');
+    box.innerHTML = '<p style="color:#888;font-size:12px;"><span class="spinner" style="display:inline-block"></span> Carregando...</p>';
+    try {
+      const lista = await chamarGas('listar_contatos', {});
+      if (!lista || !lista.length) { box.innerHTML = '<p style="color:#888;font-size:12px;">Nenhum contato ainda.</p>'; return; }
+      box.innerHTML = lista.slice(0,30).map(c => `
+        <div class="contato-item">
+          <div>
+            <div class="contato-nome">${c['Nome'] || 'Sem nome'}</div>
+            <div class="contato-detalhe">${c['Telefone'] || ''} · ${c['Pedido / Assunto'] || ''}</div>
+            <div class="contato-detalhe">${c['Data'] || ''}</div>
+          </div>
+          <div>
+            <select class="status-sel" onchange="atualizarStatus(${c._linha}, this.value)">
+              ${['Novo','Em atendimento','Finalizado'].map(s =>
+                `<option ${c['Status']===s?'selected':''}>${s}</option>`
+              ).join('')}
+            </select>
+          </div>
+        </div>
+      `).join('');
+    } catch(e) {
+      box.innerHTML = '<p style="color:#e74c3c;font-size:12px;">Erro ao carregar.</p>';
+    }
+  }
+
+  async function atualizarStatus(linha, status) {
+    try { await chamarGas('marcar_status', { linha, status }); } catch(e) {}
+  }
+
+  function copiar() {
+    const txt = document.getElementById('resposta-texto').textContent;
+    navigator.clipboard.writeText(txt).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '✅ copiado!';
+      setTimeout(() => btn.textContent = '📋 copiar', 2000);
+    });
+  }
+</script>
+</body>
+</html>
