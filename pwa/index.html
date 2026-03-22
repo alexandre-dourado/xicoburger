@@ -4,20 +4,20 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0028D4" />
-<title>Copilot Atendimento</title>
+<title>Xicos Burger — Copilot</title>
 <link rel="manifest" href="manifest.json" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;900&family=Yellowtail&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --bg-light:   #F4F0E6; /* Off-white/Bege */
-    --royal-blue: #0028D4; /* Azul Royal dominante */
-    --gold:       #FFC000; /* Dourado/Amarelo */
-    --text-dark:  #001575; /* Azul muito escuro para textos corridos */
+    --bg-light:   #F4F0E6;
+    --royal-blue: #0028D4;
+    --gold:       #FFC000;
+    --text-dark:  #001575;
     --white:      #FFFFFF;
-    --border:     #0028D4; /* Bordas marcadas em azul */
-    --radius:     4px;     /* Cantos menos arredondados, pegada mais rústica/urbana */
+    --border:     #0028D4;
+    --radius:     4px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,16 +35,15 @@
     z-index: 1;
   }
 
-  /* TEXTO REPETIDO NO FUNDO (PATTERN) */
   body::before {
-    content: "COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT COPILOT ";
+    content: "XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS XICOS ";
     position: fixed;
     top: -20%; left: -20%; right: -20%; bottom: -20%;
     z-index: -1;
     font-size: 12vw;
     font-weight: 900;
     color: var(--royal-blue);
-    opacity: 0.03; /* Super sutil */
+    opacity: 0.03;
     line-height: 0.9;
     transform: rotate(-10deg);
     pointer-events: none;
@@ -55,63 +54,67 @@
     overflow: hidden;
   }
 
-  /* HEADER */
   header {
     background: var(--royal-blue);
     border-bottom: 6px solid var(--gold);
-    padding: 16px 20px;
+    padding: 14px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky; top: 0; z-index: 100;
   }
 
-  .logo {
-    font-weight: 900;
-    font-size: 20px;
-    color: var(--white);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    transform: rotate(-3deg); /* Rotação/ângulo no logo */
+  .logo-block {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    transform: rotate(-2deg);
   }
 
-  /* MISTURA COM SCRIPT */
-  .logo .script-text {
+  .logo-top {
     font-family: 'Yellowtail', cursive;
     color: var(--gold);
-    text-transform: none;
-    letter-spacing: normal;
-    font-size: 26px;
-    margin-right: 6px;
-    transform: rotate(-8deg) translateY(-4px);
+    font-size: 13px;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 1px;
   }
 
-  .logo span#header-nome {
-    display: block;
-    color: var(--gold);
-    font-size: 10px;
+  .logo-main {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--white);
     letter-spacing: 3px;
-    margin-top: -4px;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .logo-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 3px;
   }
 
   .status-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #00FF66; /* Verde neon para contraste no azul */
-    border: 2px solid var(--royal-blue);
+    background: #aaa;
+    border: 2px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
   }
 
-  /* CARDS (ESTÉTICA NEO-BRUTALISTA / STREET) */
   .card {
     background: var(--white);
     border: 3px solid var(--border);
     border-radius: var(--radius);
     padding: 24px;
     margin: 20px;
-    box-shadow: 6px 6px 0 var(--border); /* Sombra chapada */
+    box-shadow: 6px 6px 0 var(--border);
     position: relative;
   }
 
@@ -128,17 +131,11 @@
     align-items: center;
   }
 
-  /* CHIPS */
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 
   .chip {
     padding: 8px 14px;
-    border-radius: 0px; /* Quadrado */
+    border-radius: 0px;
     background: var(--white);
     color: var(--royal-blue);
     border: 2px solid var(--border);
@@ -151,22 +148,14 @@
     transition: all .1s ease-in-out;
   }
 
-  .chip:hover,
-  .chip.active {
+  .chip:hover, .chip.active {
     background: var(--royal-blue);
     color: var(--gold);
     transform: translate(2px, 2px);
     box-shadow: 0px 0px 0 var(--border);
   }
 
-  /* BUTTONS */
-  .btn {
-    font-family: 'Montserrat', sans-serif;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.15s;
-  }
+  .btn { font-family: 'Montserrat', sans-serif; border: none; cursor: pointer; outline: none; transition: all 0.15s; }
 
   .btn-primary {
     background: var(--gold);
@@ -189,10 +178,7 @@
     box-shadow: 2px 2px 0 var(--border);
   }
 
-  .btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
   .btn-ghost {
     background: transparent;
@@ -201,13 +187,8 @@
     padding: 6px 10px;
     font-weight: 700;
   }
+  .btn-ghost:hover { background: var(--gold); color: var(--royal-blue); }
 
-  .btn-ghost:hover {
-    background: var(--gold);
-    color: var(--royal-blue);
-  }
-
-  /* INPUTS E TEXTAREAS */
   .field { margin-bottom: 16px; }
   .field label {
     display: block;
@@ -219,10 +200,7 @@
     font-size: 12px;
   }
 
-  .field input,
-  .field textarea,
-  .form-input,
-  .msg-area {
+  .field input, .field textarea, .form-input, .msg-area {
     width: 100%;
     background: var(--bg-light);
     border: 3px solid var(--border);
@@ -238,16 +216,21 @@
 
   .msg-area { height: 100px; resize: vertical; }
 
-  .field input:focus,
-  .field textarea:focus,
-  .form-input:focus,
-  .msg-area:focus {
+  .field input:focus, .field textarea:focus, .form-input:focus, .msg-area:focus {
     outline: none;
     box-shadow: 4px 4px 0 var(--gold);
     background: var(--white);
   }
 
-  /* RESPOSTA GERADA */
+  .form-grid { display: flex; flex-direction: column; }
+
+  select.form-input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    appearance: auto;
+  }
+
   .resposta-wrapper {
     background: var(--royal-blue);
     border: 3px solid var(--border);
@@ -256,7 +239,7 @@
     box-shadow: 6px 6px 0 var(--gold);
     display: none;
     position: relative;
-    transform: rotate(1deg); /* Leve inclinação pra atitude */
+    transform: rotate(1deg);
   }
 
   .resposta-label {
@@ -268,17 +251,11 @@
     font-size: 12px;
   }
 
-  .resposta-text {
-    color: var(--white);
-    font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 40px;
-  }
+  .resposta-text { color: var(--white); font-size: 15px; line-height: 1.6; margin-bottom: 40px; }
 
   .copy-fab {
     position: absolute;
-    bottom: 16px;
-    right: 16px;
+    bottom: 16px; right: 16px;
     background: var(--gold);
     color: var(--royal-blue);
     border: 2px solid var(--border);
@@ -290,14 +267,8 @@
     cursor: pointer;
     box-shadow: 2px 2px 0 var(--border);
   }
+  .copy-fab:hover { background: var(--white); transform: translate(2px,2px); box-shadow: 0 0 0 var(--border); }
 
-  .copy-fab:hover {
-    background: var(--white);
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0 var(--border);
-  }
-
-  /* LISTA DE CONTATOS */
   .contato-item {
     border-bottom: 2px solid var(--border);
     padding: 12px 0;
@@ -306,81 +277,54 @@
     align-items: flex-start;
   }
   .contato-item:last-child { border-bottom: none; }
-  
   .ci-nome { font-weight: 900; color: var(--royal-blue); text-transform: uppercase; }
-  .ci-tel { font-size: 12px; color: var(--text-dark); margin-bottom: 4px; }
-  .ci-ped { font-size: 13px; font-weight: 600; }
-  
+  .ci-tel  { font-size: 12px; color: var(--text-dark); margin-bottom: 4px; }
+  .ci-ped  { font-size: 13px; font-weight: 600; }
+
   .status-badge {
-    font-size: 10px;
-    font-weight: 900;
-    text-transform: uppercase;
-    padding: 4px 8px;
-    border: 2px solid var(--border);
+    font-size: 10px; font-weight: 900; text-transform: uppercase;
+    padding: 4px 8px; border: 2px solid var(--border);
+    white-space: nowrap; flex-shrink: 0;
   }
+  .s-novo { background: var(--white);      color: var(--royal-blue); }
+  .s-em   { background: var(--gold);       color: var(--royal-blue); }
+  .s-fin  { background: var(--royal-blue); color: var(--gold); }
 
-  .s-novo   { background: var(--white); color: var(--royal-blue); }
-  .s-em     { background: var(--gold); color: var(--royal-blue); }
-  .s-fin    { background: var(--royal-blue); color: var(--gold); }
-
-  /* BOTTOM NAV */
   nav {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
+    position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--royal-blue);
-    border-top: 4px solid var(--border);
-    display: flex;
-    z-index: 100;
+    border-top: 4px solid rgba(0,0,0,0.3);
+    display: flex; z-index: 100;
   }
 
   .nav-item {
-    flex: 1;
-    background: transparent;
-    color: var(--white);
-    border: none;
-    border-right: 2px solid var(--border);
+    flex: 1; background: transparent; color: var(--white);
+    border: none; border-right: 1px solid rgba(255,255,255,0.1);
     padding: 12px 0;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 11px;
-    cursor: pointer;
-    transition: background 0.2s;
+    font-family: 'Montserrat', sans-serif; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; font-size: 11px;
+    cursor: pointer; transition: background 0.2s;
+    display: flex; flex-direction: column; align-items: center;
   }
   .nav-item:last-child { border-right: none; }
-
-  .nav-item .icon {
-    font-size: 18px;
-    margin-bottom: 4px;
-  }
-
-  .nav-item.active {
-    background: var(--border);
-    color: var(--gold);
-  }
+  .nav-item .icon { font-size: 18px; margin-bottom: 4px; }
+  .nav-item.active { background: rgba(0,0,0,0.25); color: var(--gold); }
 
   .app-layout { padding-bottom: 80px; }
 
-  /* MODAL */
   .modal-overlay {
     position: fixed; inset: 0;
-    background: rgba(0, 40, 212, 0.9); /* Fundo azul translúcido */
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-    padding: 20px;
-    opacity: 0; pointer-events: none; transition: opacity .2s;
+    background: rgba(0,40,212,0.9);
+    z-index: 200; display: flex; align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s;
   }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
 
   .modal {
-    background: var(--bg-light);
-    border: 4px solid var(--border);
-    padding: 24px;
-    width: 100%; max-width: 480px;
+    background: var(--bg-light); border: 4px solid var(--border);
+    padding: 24px; width: 100%; max-width: 480px;
     max-height: 90vh; overflow-y: auto;
-    box-shadow: 8px 8px 0 var(--border);
-    transform: rotate(2deg); /* Modal levemente torto */
+    box-shadow: 8px 8px 0 var(--border); transform: rotate(2deg);
   }
 
   .modal-title {
@@ -389,54 +333,47 @@
     border-bottom: 4px solid var(--gold); padding-bottom: 10px;
   }
 
-  .modal-close {
-    float: right; cursor: pointer; color: var(--text-dark);
-    font-size: 24px; line-height: 1; font-weight: bold;
-  }
+  .modal-close { float: right; cursor: pointer; color: var(--text-dark); font-size: 24px; line-height: 1; font-weight: bold; }
   .modal-close:hover { color: var(--gold); }
 
-  /* TOAST */
   .toast {
     position: fixed; top: 80px; left: 50%; transform: translateX(-50%) translateY(-20px);
     background: var(--white); border: 3px solid var(--border);
     color: var(--royal-blue); font-weight: 900; text-transform: uppercase;
     padding: 12px 24px; box-shadow: 4px 4px 0 var(--gold);
     opacity: 0; pointer-events: none; transition: all .3s;
-    z-index: 999;
+    z-index: 999; white-space: nowrap;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* LOADER */
-  .loader { display: none; text-align: center; margin: 20px 0; font-weight: 900; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 2px;}
+  .loader { display: none; text-align: center; margin: 20px 0; font-weight: 900; color: var(--royal-blue); text-transform: uppercase; letter-spacing: 2px; }
   .loader.show { display: block; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <span class="script-text">The</span> Copilot
-    <div style="margin-left:8px;">
-      <span id="header-nome">Atendimento</span>
-    </div>
+  <div class="logo-block">
+    <span class="logo-top">the</span>
+    <span class="logo-main">Xicos Burger</span>
+    <span class="logo-sub">Atendimento Inteligente</span>
   </div>
   <div style="display:flex;align-items:center;gap:16px;">
-    <div class="status-dot" id="status-dot" title="Conectado"></div>
+    <div class="status-dot" id="status-dot" title="Verificando..."></div>
     <button class="btn btn-ghost" onclick="abrirConfig()">SET</button>
   </div>
 </header>
 
-<div id="setup-screen">
-  <div class="card" style="margin-top:40px; transform: rotate(-1deg);">
+<!-- Setup só aparece se não houver config salva -->
+<div id="setup-screen" style="display:none;">
+  <div class="card" style="margin-top:40px;transform:rotate(-1deg);">
     <div class="card-title">INICIAR SISTEMA</div>
-    <p style="margin-bottom:20px; font-weight: 600;">Configure os dados do negócio. Salve apenas uma vez.</p>
-
+    <p style="margin-bottom:20px;font-weight:600;">Configure os dados do negócio. Salve apenas uma vez.</p>
     <div class="field"><label>URL do Web App (GAS)</label><input id="s-gasurl" type="url" placeholder="https://script.google.com/..."/></div>
-    <div class="field"><label>Nome do Negócio</label><input id="s-nome" placeholder="Ex: THE BURGER"/></div>
-    <div class="field"><label>Horário de Funcionamento</label><input id="s-horario" placeholder="Ex: Seg a Dom, 18h às 23h"/></div>
-    <div class="field"><label>Telefone/WhatsApp</label><input id="s-tel" type="tel" placeholder="(31) 9xxxx-xxxx"/></div>
-    <div class="field"><label>Cardápio resumido</label><textarea id="s-cardapio" placeholder="Smash R$18, Duplo R$25..."></textarea></div>
-
+    <div class="field"><label>Nome do Negócio</label><input id="s-nome" placeholder="Ex: XICOS BURGER"/></div>
+    <div class="field"><label>Horário de Funcionamento</label><input id="s-horario" placeholder="Ex: 18h às 23h"/></div>
+    <div class="field"><label>Telefone/WhatsApp</label><input id="s-tel" type="tel" placeholder="(38) 9xxxx-xxxx"/></div>
+    <div class="field"><label>Cardápio resumido</label><textarea id="s-cardapio" placeholder="BLT R$33, Zoião R$37..."></textarea></div>
     <button class="btn btn-primary" onclick="salvarSetup()">SALVAR E ENTRAR</button>
   </div>
 </div>
@@ -447,19 +384,19 @@
     <div id="panel-resposta">
       <div class="card">
         <div class="card-title">GERAR RESPOSTA I.A.</div>
-        <div class="chips" id="chips-container">
+        <div class="chips">
           <span class="chip" onclick="useChip(this,'Qual o cardápio?')">Cardápio</span>
           <span class="chip" onclick="useChip(this,'Faz entrega?')">Entrega</span>
           <span class="chip" onclick="useChip(this,'Qual o horário?')">Horário</span>
           <span class="chip" onclick="useChip(this,'Quero fazer um pedido')">Pedido</span>
           <span class="chip" onclick="useChip(this,'Vocês aceitam cartão?')">Pagamento</span>
-          <span class="chip" onclick="useChip(this,'Qual o endereço de entrega?')">Endereço</span>
+          <span class="chip" onclick="useChip(this,'Qual o endereço?')">Endereço</span>
+          <span class="chip" onclick="useChip(this,'Quanto custa o BLT?')">BLT</span>
+          <span class="chip" onclick="useChip(this,'Quanto custa o Zoião?')">Zoião</span>
         </div>
         <textarea class="msg-area" id="msg-input" placeholder="COLE A MENSAGEM DO CLIENTE AQUI..."></textarea>
-        <input class="form-input" id="ctx-extra" placeholder="Contexto extra (Ex: VIP, atrasado)" />
-        <button class="btn btn-primary" id="btn-gerar" onclick="gerarResposta()">
-          GERAR RESPOSTA
-        </button>
+        <input class="form-input" id="ctx-extra" placeholder="Contexto extra (Ex: cliente VIP, pedido urgente)" />
+        <button class="btn btn-primary" id="btn-gerar" onclick="gerarResposta()">GERAR RESPOSTA</button>
         <div class="loader" id="loader-ia">PROCESSANDO...</div>
         <div class="resposta-wrapper" id="resposta-wrapper">
           <div class="resposta-label">RESPOSTA SUGERIDA</div>
@@ -475,7 +412,7 @@
         <div class="form-grid">
           <div class="field"><label>NOME</label><input class="form-input" id="c-nome" /></div>
           <div class="field"><label>WHATSAPP</label><input class="form-input" id="c-tel" /></div>
-          <div class="field"><label>ASSUNTO</label><input class="form-input form-full" id="c-assunto" /></div>
+          <div class="field"><label>PEDIDO / ASSUNTO</label><input class="form-input" id="c-assunto" /></div>
           <div class="field"><label>STATUS</label>
             <select class="form-input" id="c-status">
               <option value="Novo">NOVO</option>
@@ -491,12 +428,12 @@
 
     <div id="panel-lista" style="display:none;">
       <div class="card">
-        <div class="card-title" style="justify-content:space-between; margin-bottom: 0; border-bottom: none;">
+        <div class="card-title" style="justify-content:space-between;margin-bottom:0;border-bottom:none;">
           <span>CONTATOS RECENTES</span>
-          <button class="btn btn-ghost" onclick="carregarContatos()" style="color:var(--royal-blue); border-color:var(--royal-blue)">ATUALIZAR</button>
+          <button class="btn btn-ghost" onclick="carregarContatos()" style="color:var(--royal-blue);border-color:var(--royal-blue);">ATUALIZAR</button>
         </div>
-        <div id="lista-wrapper" style="margin-top: 16px; border-top: 3px solid var(--border); padding-top: 16px;">
-          <p style="color:var(--text-dark);font-size:13px;text-align:center;padding:20px 0; font-weight:bold;">Clique em Atualizar para carregar.</p>
+        <div id="lista-wrapper" style="margin-top:16px;border-top:3px solid var(--border);padding-top:16px;">
+          <p style="color:var(--text-dark);font-size:13px;text-align:center;padding:20px 0;font-weight:bold;">Clique em Atualizar para carregar.</p>
         </div>
       </div>
     </div>
@@ -524,16 +461,15 @@
     <div class="field"><label>Nome do Negócio</label><input id="cfg-nome" /></div>
     <div class="field"><label>Horário</label><input id="cfg-horario" /></div>
     <div class="field"><label>Telefone</label><input id="cfg-tel" type="tel" /></div>
-    <div class="field"><label>Cardápio</label><textarea id="cfg-cardapio" style="height: 80px;"></textarea></div>
+    <div class="field"><label>Cardápio</label><textarea id="cfg-cardapio" style="height:80px;"></textarea></div>
     <button class="btn btn-primary" onclick="salvarConfig()">SALVAR</button>
-    <button class="btn btn-ghost" style="margin-top:12px; width: 100%; border-color: red; color: red;" onclick="limparDados()">REDEFINIR SISTEMA</button>
+    <button class="btn btn-ghost" style="margin-top:12px;width:100%;border-color:red;color:red;" onclick="limparDados()">REDEFINIR SISTEMA</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── STORAGE ──
   const S = {
     get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch{ return null; } },
     set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
@@ -541,14 +477,28 @@
   };
   const CFG_KEY = 'copilot_cfg';
 
-  // ── INIT ──
+  const DEFAULT_CFG = {
+    gasUrl:   'https://script.google.com/macros/s/AKfycbwsXjYOHZBYMc7BX_8meiO_1TiSo0mxW35NdgqrG1VxJ477I41JSDEHApX49CIIaBc/exec',
+    nome:     'XICOS BURGER',
+    horario:  '18h às 23h',
+    telefone: '(38) 9179-3963',
+    cardapio: `Pedido mínimo R$15. Entrega 30–50min. Acumule R$300 e ganhe R$30 de desconto.
+
+ENTRADAS: Anéis de Cebola R$22 | Fritas R$19 | Fritas Blue (cheddar+bacon) R$26
+
+CLÁSSICOS: Fininho R$27 | Hambúrguer R$27 | Cheeseburger R$29 | Cheesebacon R$31 | Smashinho R$33 (2x75g smash, cheddar, picles, cebola roxa) | BLT R$33 (bacon, alface, tomate)
+
+ESPECIAIS: Zoião R$37 (cheddar, bacon, ovo, cebola roxa, salada) | Melt R$33 | Sweet Bacon R$33 | The Blue Burger R$34 (gorgonzola+rúcula) | Vaquejada R$34 | Veggie R$30 | Duplo R$52 | No Pain R$27 (low carb)
+
+BEBIDAS: Refri lata R$7 | Coca 220ml R$5 | Coca 600ml R$9 | Água R$4 | Suco R$5 | Chá Gelado R$8 | Baer Mate R$13 | Budweiser R$9
+
+DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas.`
+  };
+
   window.onload = () => {
-    const cfg = S.get(CFG_KEY);
-    if (cfg && cfg.gasUrl) {
-      entrarApp(cfg);
-    } else {
-      document.getElementById('setup-screen').style.display = 'block';
-    }
+    if (!S.get(CFG_KEY)) S.set(CFG_KEY, DEFAULT_CFG);
+    entrarApp(S.get(CFG_KEY));
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
   };
 
   function salvarSetup() {
@@ -565,7 +515,6 @@
   }
 
   function entrarApp(cfg) {
-    document.getElementById('header-nome').textContent = cfg.nome || 'ATENDIMENTO';
     document.getElementById('setup-screen').style.display = 'none';
     document.getElementById('app-screen').style.display   = 'block';
     pingGas(cfg.gasUrl);
@@ -575,39 +524,35 @@
     try {
       const r = await fetch(url + '?acao=ping');
       const j = await r.json();
-      if (j.ok) {
-        document.getElementById('status-dot').style.background = '#00FF66';
-        document.getElementById('status-dot').title = 'Conectado ✅';
-      }
+      const dot = document.getElementById('status-dot');
+      dot.style.background = j.ok ? '#00FF66' : '#FF0033';
+      dot.title = j.ok ? 'Conectado ✅' : 'Offline ⚠️';
     } catch {
-      document.getElementById('status-dot').style.background = '#FF0033';
-      document.getElementById('status-dot').title = 'Offline ⚠️';
+      const dot = document.getElementById('status-dot');
+      dot.style.background = '#FF0033';
+      dot.title = 'Offline ⚠️';
     }
   }
 
-  // ── PANELS ──
   function showPanel(name) {
     ['resposta','contato','lista'].forEach(p => {
-      document.getElementById('panel-'+p).style.display = p===name?'block':'none';
+      document.getElementById('panel-'+p).style.display = p===name ? 'block' : 'none';
       document.getElementById('nav-'+p).classList.toggle('active', p===name);
     });
     if (name === 'lista') carregarContatos();
   }
 
-  // ── CHIPS ──
   function useChip(el, texto) {
-    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
     document.getElementById('msg-input').value = texto;
   }
 
-  // ── GERAR RESPOSTA ──
   async function gerarResposta() {
     const msg = document.getElementById('msg-input').value.trim();
     if (!msg) { toast('⚠️ Escreva a mensagem do cliente'); return; }
-
     const cfg = S.get(CFG_KEY);
-    if (!cfg?.gasUrl) { toast('⚠️ Configure o sistema primeiro'); return; }
+    if (!cfg?.gasUrl) { toast('⚠️ Configure o sistema'); return; }
 
     document.getElementById('btn-gerar').disabled = true;
     document.getElementById('loader-ia').classList.add('show');
@@ -617,17 +562,12 @@
       const r = await fetch(cfg.gasUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          acao: 'gerar_resposta',
-          mensagem: msg,
-          contexto: document.getElementById('ctx-extra').value
-        })
+        body: JSON.stringify({ acao: 'gerar_resposta', mensagem: msg, contexto: document.getElementById('ctx-extra').value })
       });
       const j = await r.json();
-      const texto = j?.data?.resposta || '⚠️ Sem resposta.';
-      document.getElementById('resposta-text').textContent = texto;
+      document.getElementById('resposta-text').textContent = j?.data?.resposta || '⚠️ Sem resposta.';
       document.getElementById('resposta-wrapper').style.display = 'block';
-    } catch(e) {
+    } catch {
       toast('❌ Erro ao conectar ao sistema');
     } finally {
       document.getElementById('btn-gerar').disabled = false;
@@ -638,19 +578,17 @@
   function copiarResposta() {
     const t = document.getElementById('resposta-text').textContent;
     navigator.clipboard.writeText(t).then(() => {
-      toast('Copiado para área de transferência!');
+      toast('✅ Copiado! Cole no WhatsApp.');
       document.querySelector('.copy-fab').textContent = 'COPIADO!';
       setTimeout(() => document.querySelector('.copy-fab').textContent = 'COPIAR', 2000);
     });
   }
 
-  // ── SALVAR CONTATO ──
   async function salvarContato() {
     const cfg = S.get(CFG_KEY);
     if (!cfg?.gasUrl) { toast('⚠️ Configure o sistema'); return; }
-
     const dados = {
-      acao:     'salvar_contato',
+      acao: 'salvar_contato',
       nome:     document.getElementById('c-nome').value,
       telefone: document.getElementById('c-tel').value,
       assunto:  document.getElementById('c-assunto').value,
@@ -658,31 +596,26 @@
       obs:      document.getElementById('c-obs').value,
     };
     if (!dados.nome && !dados.telefone) { toast('⚠️ Informe nome ou telefone'); return; }
-
     try {
       const r = await fetch(cfg.gasUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(dados) });
       const j = await r.json();
       if (j.ok) {
-        toast('Contato salvo com sucesso!');
-        ['c-nome','c-tel','c-assunto','c-obs'].forEach(id => document.getElementById(id).value='');
+        toast('✅ Contato salvo!');
+        ['c-nome','c-tel','c-assunto','c-obs'].forEach(id => document.getElementById(id).value = '');
       }
     } catch { toast('❌ Erro ao salvar'); }
   }
 
-  // ── LISTA ──
   async function carregarContatos() {
     const cfg = S.get(CFG_KEY);
     if (!cfg?.gasUrl) return;
     const box = document.getElementById('lista-wrapper');
-    box.innerHTML = '<p style="text-align:center; font-weight:bold; color:var(--royal-blue); padding:20px;">CARREGANDO...</p>';
-
+    box.innerHTML = '<p style="text-align:center;font-weight:bold;color:var(--royal-blue);padding:20px;">CARREGANDO...</p>';
     try {
       const r    = await fetch(cfg.gasUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ acao:'listar_contatos' }) });
       const j    = await r.json();
       const list = j?.data || [];
-
-      if (!list.length) { box.innerHTML = '<p style="text-align:center; padding:20px;">Nenhum contato ainda.</p>'; return; }
-
+      if (!list.length) { box.innerHTML = '<p style="text-align:center;padding:20px;font-weight:bold;">Nenhum contato ainda.</p>'; return; }
       box.innerHTML = list.slice(0,30).map(c => {
         const sc = c['Status'] === 'Novo' ? 's-novo' : c['Status'] === 'Em atendimento' ? 's-em' : 's-fin';
         return `<div class="contato-item">
@@ -695,11 +628,10 @@
         </div>`;
       }).join('');
     } catch {
-      box.innerHTML = '<p style="color:red; text-align:center; font-weight:bold; padding:20px;">ERRO AO CARREGAR</p>';
+      box.innerHTML = '<p style="color:red;text-align:center;font-weight:bold;padding:20px;">ERRO AO CARREGAR</p>';
     }
   }
 
-  // ── CONFIG MODAL ──
   function abrirConfig() {
     const cfg = S.get(CFG_KEY) || {};
     document.getElementById('cfg-gasurl').value   = cfg.gasUrl   || '';
@@ -709,7 +641,9 @@
     document.getElementById('cfg-cardapio').value = cfg.cardapio || '';
     document.getElementById('config-modal').classList.add('open');
   }
+
   function fecharConfig() { document.getElementById('config-modal').classList.remove('open'); }
+
   function salvarConfig() {
     const cfg = {
       gasUrl:   document.getElementById('cfg-gasurl').value.trim(),
@@ -721,15 +655,15 @@
     S.set(CFG_KEY, cfg);
     entrarApp(cfg);
     fecharConfig();
-    toast('Configurações salvas!');
+    toast('✅ Configurações salvas!');
   }
+
   function limparDados() {
     if (!confirm('Tem certeza? Isso apagará os dados do app.')) return;
     S.del(CFG_KEY);
     location.reload();
   }
 
-  // ── TOAST ──
   let _toastTimer;
   function toast(msg) {
     const el = document.getElementById('toast');
