@@ -140,12 +140,16 @@
   .msg-box:focus { outline: none; box-shadow: 4px 4px 0 var(--gold); background: var(--white); }
   #msg-input  { height: 110px; }
   #msg-output {
-    height: 130px;
+    height: auto;
+    min-height: 120px;
+    max-height: 320px;
     background: var(--blue);
     color: var(--white);
     border-color: var(--blue);
     font-size: 14px;
     cursor: text;
+    overflow-y: auto;
+    resize: none;
   }
   #msg-output:focus { box-shadow: 4px 4px 0 var(--gold); }
 
@@ -521,7 +525,7 @@ const TONE_KEY = 'xicos_tone';
 
 // ── DEFAULT CONFIG ──
 const DEFAULT = {
-  gasUrl:    'https://script.google.com/macros/s/AKfycbzXszZ97nvhBt_4JEksCcOVsjf_WHQzc8i1S6ZXVJdZERLkg2XQ-_hSDEmTID368eg/exec',
+  gasUrl:    'https://script.google.com/macros/s/AKfycbyl09uwpcVIRGV9leSPpI7-1PuFvpETj86ZocuYyi9fyzeaWefXg_wMT4m0HU2t66A/exec',
   nome:      'Xicos Burger',
   horario:   '18h às 23h',
   telefone:  '(38) 9179-3963',
@@ -627,7 +631,10 @@ async function gerarResposta() {
       contexto: extra
     });
     const resp = j?.data?.resposta || '⚠️ Sem resposta.';
-    document.getElementById('msg-output').value = resp;
+    const out = document.getElementById('msg-output');
+    out.value = resp;
+    out.style.height = 'auto';
+    out.style.height = Math.min(out.scrollHeight + 4, 320) + 'px';
     document.getElementById('output-card').style.display = 'block';
     document.getElementById('output-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   } catch {
@@ -640,19 +647,19 @@ async function gerarResposta() {
 
 function buildExtraContext(cfg) {
   const t = toneState;
-  const tamanhoMap = { 'Curta': '1-2 frases', 'Média': '2-3 frases', 'Longa': '3-5 frases' };
-  let ctx = `
-TOM: ${t.tom}.
-FOCO: ${t.foco}.
-TAMANHO: ${tamanhoMap[t.tamanho] || '2-3 frases'}.
-${t.cta ? 'SEMPRE termine com uma pergunta ou call-to-action.' : 'Não precisa terminar com pergunta.'}
-${t.nomeNaResposta ? `Pode mencionar "${cfg.nome}" na resposta se natural.` : 'Não mencione o nome do negócio.'}
-${t.emoji ? 'Use 1-2 emojis relevantes na resposta.' : 'Não use emojis.'}
-PAGAMENTOS ACEITOS: ${cfg.pagamento || 'não informado'}.
-ENDEREÇO: ${cfg.endereco || 'não informado'}.
-${t.extra ? 'INSTRUÇÃO ESPECIAL: ' + t.extra : ''}
-  `.trim();
-  return ctx;
+  const tam = {'Curta':'1-2 frases','Média':'2-3 frases','Longa':'3-5 frases'}[t.tamanho] || '2-3 frases';
+  const parts = [
+    'TOM:' + t.tom,
+    'FOCO:' + t.foco,
+    'TAMANHO:' + tam,
+    t.cta ? 'CTA:sim' : 'CTA:nao',
+    t.nomeNaResposta ? 'NOME:sim' : 'NOME:nao',
+    t.emoji ? 'EMOJI:sim' : 'EMOJI:nao',
+  ];
+  if (cfg.pagamento) parts.push('PGTO:' + cfg.pagamento);
+  if (cfg.endereco)  parts.push('END:' + cfg.endereco);
+  if (t.extra)       parts.push('EXTRA:' + t.extra);
+  return parts.join('|');
 }
 
 async function regenerar() {
