@@ -671,6 +671,22 @@ DESTAQUES: BLT e Zoião são os mais pedidos. Todos os burgers acompanham fritas
     try {
       const j    = await gasGet({ acao: 'listar_contatos' });
       const list = j?.data || [];
+      if (!list.length) { box.innerHTML = '<p style="text-align:center;padding:20px;font-weight:bold;">Nenhum contato ainda.</p>'; return; }
+      box.innerHTML = list.slice(0,30).map(c => {
+        const sc = c['Status'] === 'Novo' ? 's-novo' : c['Status'] === 'Em atendimento' ? 's-em' : 's-fin';
+        return `<div class="contato-item">
+          <div>
+            <div class="ci-nome">${c['Nome']||'Sem nome'}</div>
+            <div class="ci-tel">${c['Telefone']||'—'}</div>
+            <div class="ci-ped">${c['Pedido / Assunto']||''}</div>
+          </div>
+          <span class="status-badge ${sc}">${c['Status']}</span>
+        </div>`;
+      }).join('');
+    } catch {
+      box.innerHTML = '<p style="color:red;text-align:center;font-weight:bold;padding:20px;">ERRO AO CARREGAR</p>';
+    }
+  }
 
   function abrirConfig() {
     const cfg = S.get(CFG_KEY) || {};
